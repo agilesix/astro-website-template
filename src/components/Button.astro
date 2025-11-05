@@ -8,9 +8,6 @@ interface Props {
 const { href, text, class: className = "" } = Astro.props;
 ---
 
-<a
-  href={href}
-  class={`inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors ${className}`}
->
+<a href={href} class={`button-primary inline-block ${className}`}>
   {text}
 </a>

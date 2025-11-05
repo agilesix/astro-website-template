@@ -7,7 +7,13 @@ interface Props {
 const { title, class: className = "" } = Astro.props;
 ---
 
-<div class={`bg-gray-50 p-6 rounded-lg ${className}`}>
-  {title && <h2 class="text-xl font-semibold text-gray-900 mb-4">{title}</h2>}
+<div class={`card ${className}`}>
+  {
+    title && (
+      <h2 class="text-heading-3" style="margin-bottom: var(--spacing-md);">
+        {title}
+      </h2>
+    )
+  }
   <slot />
 </div>

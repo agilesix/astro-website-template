@@ -31,7 +31,7 @@ const { items } = Astro.props;
           <div class="relative group" role="none">
             <button
               id={dropdownId}
-              class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+              class="text-foreground hover:text-foreground/80 px-3 py-2 text-sm font-medium flex items-center focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
               aria-haspopup="true"
               aria-expanded="false"
               aria-controls={menuId}
@@ -56,7 +56,7 @@ const { items } = Astro.props;
             </button>
             <div
               id={menuId}
-              class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 z-10"
+              class="absolute left-0 mt-2 w-48 bg-popover text-popover-foreground border border-border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 z-10"
               role="menu"
               aria-labelledby={dropdownId}
               data-dropdown-menu
@@ -65,7 +65,7 @@ const { items } = Astro.props;
                 {item.items.map((subItem: NavItem, subIndex: number) => (
                   <a
                     href={subItem.href}
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                    class="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ring transition-colors"
                     role="menuitem"
                     tabindex="-1"
                   >
@@ -81,7 +81,7 @@ const { items } = Astro.props;
         return (
           <a
             href={item.href}
-            class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+            class="text-foreground hover:text-foreground/80 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
             role="menuitem"
           >
             {item.label}

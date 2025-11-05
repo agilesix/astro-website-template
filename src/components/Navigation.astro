@@ -22,7 +22,7 @@ const { logo, logoHref = "/", items } = Astro.props;
 ---
 
 <nav
-  class="bg-white shadow-sm relative"
+  class="bg-background border-b border-border shadow-sm relative transition-colors"
   role="navigation"
   aria-label="Main navigation"
 >
@@ -32,7 +32,7 @@ const { logo, logoHref = "/", items } = Astro.props;
       <div class="shrink-0">
         <a
           href={logoHref}
-          class="text-2xl font-bold text-gray-900 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+          class="text-2xl font-bold text-foreground hover:text-foreground/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
           aria-label={`${logo || "Company Name"} - Home`}
         >
           {logo || "Company Name"}
@@ -40,10 +40,208 @@ const { logo, logoHref = "/", items } = Astro.props;
       </div>
 
       <!-- Desktop Navigation -->
-      <DesktopNavigation items={items} />
+      <div class="hidden md:flex md:items-center md:space-x-4">
+        <DesktopNavigation items={items} />
+        <!-- Theme Toggle Button -->
+        <button
+          id="theme-toggle"
+          class="ml-4 p-2 text-foreground hover:text-foreground/80 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
+          aria-label="Toggle theme"
+          type="button"
+        >
+          <!-- Sun icon (shown in dark mode) -->
+          <svg
+            id="theme-toggle-light-icon"
+            class="w-5 h-5 hidden"
+            data-theme-icon="dark"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            ></path>
+          </svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg
+            id="theme-toggle-dark-icon"
+            class="w-5 h-5"
+            data-theme-icon="light"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            ></path>
+          </svg>
+        </button>
+      </div>
 
       <!-- Mobile Navigation -->
-      <MobileNavigation items={items} />
+      <div class="md:hidden flex items-center space-x-2">
+        <!-- Theme Toggle Button (Mobile) -->
+        <button
+          id="theme-toggle-mobile"
+          class="p-2 text-foreground hover:text-foreground/80 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
+          aria-label="Toggle theme"
+          type="button"
+        >
+          <!-- Sun icon (shown in dark mode) -->
+          <svg
+            id="theme-toggle-light-icon-mobile"
+            class="w-5 h-5 hidden"
+            data-theme-icon="dark"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            ></path>
+          </svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg
+            id="theme-toggle-dark-icon-mobile"
+            class="w-5 h-5"
+            data-theme-icon="light"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            ></path>
+          </svg>
+        </button>
+        <MobileNavigation items={items} />
+      </div>
     </div>
   </div>
 </nav>
+
+<script>
+  // Theme toggle functionality
+  (function () {
+    const THEME_STORAGE_KEY = "theme-preference";
+    const THEME_ATTRIBUTE = "data-theme";
+
+    // Get the initial theme preference
+    function getThemePreference(): string {
+      // Check localStorage first
+      const stored = localStorage.getItem(THEME_STORAGE_KEY);
+      if (stored === "dark" || stored === "light") {
+        return stored;
+      }
+
+      // Fall back to system preference
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        return "dark";
+      }
+
+      // Default to light
+      return "light";
+    }
+
+    // Apply theme to document
+    function applyTheme(theme: string) {
+      const root = document.documentElement;
+      root.setAttribute(THEME_ATTRIBUTE, theme);
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+    }
+
+    // Initialize theme on page load (only if not already set)
+    function initTheme() {
+      // Check if theme is already set by inline script in head
+      const currentTheme =
+        document.documentElement.getAttribute(THEME_ATTRIBUTE);
+      if (!currentTheme || currentTheme === "light") {
+        const theme = getThemePreference();
+        applyTheme(theme);
+        updateThemeIcons(theme);
+      } else {
+        // Theme already set, just update icons
+        updateThemeIcons(currentTheme);
+      }
+    }
+
+    // Toggle theme
+    function toggleTheme() {
+      const currentTheme =
+        document.documentElement.getAttribute(THEME_ATTRIBUTE) || "light";
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      applyTheme(newTheme);
+      updateThemeIcons(newTheme);
+    }
+
+    // Update theme toggle icons
+    function updateThemeIcons(theme: string) {
+      const lightIcons = document.querySelectorAll('[data-theme-icon="dark"]');
+      const darkIcons = document.querySelectorAll('[data-theme-icon="light"]');
+
+      lightIcons.forEach((icon) => {
+        if (theme === "dark") {
+          icon.classList.remove("hidden");
+        } else {
+          icon.classList.add("hidden");
+        }
+      });
+
+      darkIcons.forEach((icon) => {
+        if (theme === "light") {
+          icon.classList.remove("hidden");
+        } else {
+          icon.classList.add("hidden");
+        }
+      });
+    }
+
+    // Initialize theme and icons after DOM is ready
+    // (Theme should already be set by inline script in head)
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initTheme);
+    } else {
+      initTheme();
+    }
+
+    // Set up event listeners after DOM is ready
+    document.addEventListener("DOMContentLoaded", () => {
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeToggleMobile = document.getElementById("theme-toggle-mobile");
+
+      if (themeToggle) {
+        themeToggle.addEventListener("click", toggleTheme);
+      }
+
+      if (themeToggleMobile) {
+        themeToggleMobile.addEventListener("click", toggleTheme);
+      }
+
+      // Listen for system theme changes
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (e) => {
+          // Only update if user hasn't set a preference
+          if (!localStorage.getItem(THEME_STORAGE_KEY)) {
+            applyTheme(e.matches ? "dark" : "light");
+          }
+        });
+    });
+  })();
+</script>

@@ -1,54 +1,369 @@
 @import "tailwindcss";
 
-/* Typography styles for MDX/prose content */
+/* =======================================================
+   THEME CONFIGURATION (ShadCN-style)
+   =======================================================
+   Semantic CSS variables that can be easily swapped for branding themes.
+   Use @theme inline to map these to Tailwind utility classes.
+   ======================================================= */
+
+/* Body background - prevent white flash */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+:root,
+[data-theme="light"] {
+    /* Semantic color tokens - ShadCN convention */
+    --background: #ffffff;
+    --foreground: #111827;
+    
+    --card: #ffffff;
+    --card-foreground: #111827;
+    
+    --popover: #ffffff;
+    --popover-foreground: #111827;
+    
+    --primary: #2563eb;
+    --primary-foreground: #ffffff;
+    
+    --secondary: #f9fafb;
+    --secondary-foreground: #111827;
+    
+    --muted: #f9fafb;
+    --muted-foreground: #4b5563;
+    
+    --accent: #f3f4f6;
+    --accent-foreground: #111827;
+    
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    
+    --border: #e5e7eb;
+    --input: #e5e7eb;
+    --ring: #2563eb;
+    
+    /* Additional semantic tokens for our design system */
+    --radius: 0.5rem;
+    
+    /* Legacy token mappings (for backward compatibility) */
+    --color-primary: var(--primary);
+    --color-primary-hover: #1d4ed8;
+    --color-primary-light: #3b82f6;
+    --color-primary-dark: #1e40af;
+    --color-text-primary: var(--foreground);
+    --color-text-secondary: #4b5563;
+    --color-text-tertiary: #6b7280;
+    --color-text-muted: #9ca3af;
+    --color-bg-default: var(--background);
+    --color-bg-muted: var(--muted);
+    --color-bg-subtle: var(--accent);
+    --color-border-default: var(--border);
+    --color-border-light: #d1d5db;
+    
+    /* Spacing tokens */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    --spacing-4xl: 5rem;
+    
+    /* Border radius tokens */
+    --radius-sm: 0.125rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+    
+    /* Transition tokens */
+    --transition-fast: 150ms;
+    --transition-normal: 250ms;
+    --transition-slow: 350ms;
+    
+    /* Layout tokens */
+    --container-max-width: 896px;
+    --section-padding-y: 5rem;
+    --section-padding-x: 1rem;
+}
+
+[data-theme="dark"] {
+    /* Dark theme semantic tokens */
+    --background: #111827;
+    --foreground: #f3f4f6;
+    
+    --card: #1f2937;
+    --card-foreground: #f3f4f6;
+    
+    --popover: #1f2937;
+    --popover-foreground: #f3f4f6;
+    
+    --primary: #3b82f6;
+    --primary-foreground: #111827;
+    
+    --secondary: #1f2937;
+    --secondary-foreground: #f3f4f6;
+    
+    --muted: #1f2937;
+    --muted-foreground: #9ca3af;
+    
+    --accent: #374151;
+    --accent-foreground: #f3f4f6;
+    
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    
+    --border: #4b5563;
+    --input: #4b5563;
+    --ring: #3b82f6;
+    
+    /* Legacy token mappings for dark theme */
+    --color-primary: var(--primary);
+    --color-primary-hover: #60a5fa;
+    --color-primary-light: #93c5fd;
+    --color-primary-dark: #1d4ed8;
+    --color-text-primary: var(--foreground);
+    --color-text-secondary: #d1d5db;
+    --color-text-tertiary: #9ca3af;
+    --color-text-muted: #6b7280;
+    --color-bg-default: var(--background);
+    --color-bg-muted: var(--muted);
+    --color-bg-subtle: var(--accent);
+    --color-border-default: var(--border);
+    --color-border-light: #6b7280;
+}
+
+/* =======================================================
+   MAP CSS VARIABLES TO TAILWIND CLASSES
+   ======================================================= */
+/* Use @theme inline to make these available as Tailwind utilities */
+@theme inline {
+    /* Semantic color utilities - ShadCN convention */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    
+    /* Map to standard Tailwind colors for backward compatibility */
+    --color-gray-50: var(--accent);
+    --color-gray-100: var(--muted);
+    --color-gray-200: var(--border);
+    --color-gray-300: var(--border);
+    --color-gray-400: var(--muted-foreground);
+    --color-gray-500: var(--muted-foreground);
+    --color-gray-600: var(--foreground);
+    --color-gray-700: var(--foreground);
+    --color-gray-800: var(--foreground);
+    --color-gray-900: var(--foreground);
+    
+    --color-blue-400: var(--primary);
+    --color-blue-500: var(--primary);
+    --color-blue-600: var(--primary);
+    --color-blue-700: var(--primary);
+    --color-blue-800: var(--primary);
+}
+
+/* =======================================================
+   UTILITY CLASSES USING TOKENS
+   ======================================================= */
+
+.button-primary {
+    @apply bg-primary text-primary-foreground font-semibold rounded-lg transition-colors;
+    padding: var(--spacing-md) var(--spacing-2xl);
+}
+
+.button-primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.card {
+    @apply bg-card text-card-foreground rounded-lg;
+    padding: var(--spacing-lg);
+}
+
+.callout {
+    @apply bg-muted text-muted-foreground rounded-lg;
+    padding: var(--spacing-2xl);
+}
+
+.container-content {
+    max-width: var(--container-max-width);
+    margin-inline: auto;
+}
+
+.section-padding {
+    padding-block: var(--section-padding-y);
+    padding-inline: var(--section-padding-x);
+}
+
+/* =======================================================
+   TYPOGRAPHY UTILITIES
+   ======================================================= */
+
+.text-heading-1 {
+    @apply font-bold leading-tight text-foreground;
+    font-size: clamp(2.25rem, 5vw, 3rem);
+}
+
+.text-heading-2 {
+    @apply font-semibold text-foreground;
+    font-size: 1.5rem;
+}
+
+.text-heading-3 {
+    @apply font-semibold text-foreground;
+    font-size: 1.25rem;
+}
+
+.text-body-large {
+    @apply text-foreground;
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+.text-body {
+    @apply text-foreground;
+    font-size: 1.125rem;
+    opacity: 0.8;
+}
+
+.text-body-small {
+    @apply text-muted-foreground;
+    font-size: 0.875rem;
+}
+
+/* =======================================================
+   PROSE STYLES (THEME-AWARE)
+   ======================================================= */
+/* Prose uses semantic tokens - automatically theme-aware */
+
 .prose {
-  @apply text-gray-900;
+    @apply text-base leading-relaxed max-w-prose;
+    color: var(--foreground);
 }
 
-.prose > p {
-  @apply text-lg text-gray-600 mb-6;
+.prose>p {
+    @apply mb-6 text-lg;
+    color: var(--foreground);
+    opacity: 0.9;
 }
 
-.prose > p:first-of-type {
-  @apply text-xl text-gray-600 mb-6;
+.prose>p:first-of-type {
+    @apply text-xl;
+    color: var(--foreground);
+    opacity: 1;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+    @apply font-semibold leading-tight mt-10 mb-4;
+    color: var(--foreground);
+}
+
+.prose h1 {
+    @apply text-3xl md:text-4xl;
 }
 
 .prose h2 {
-  @apply text-2xl font-semibold text-gray-900 mt-8 mb-4;
+    @apply text-2xl;
 }
 
 .prose h3 {
-  @apply text-xl font-semibold text-gray-900 mt-6 mb-3;
+    @apply text-xl;
+}
+
+.prose h4 {
+    @apply text-lg;
 }
 
 .prose ul {
-  @apply list-disc list-inside text-lg text-gray-600 space-y-2 mb-6;
+    @apply list-disc list-inside text-lg space-y-2 mb-6;
+    color: var(--foreground);
+    opacity: 0.9;
 }
 
 .prose ol {
-  @apply list-decimal list-inside text-lg text-gray-600 space-y-2 mb-6;
+    @apply list-decimal list-inside text-lg space-y-2 mb-6;
+    color: var(--foreground);
+    opacity: 0.9;
 }
 
 .prose li {
-  @apply text-lg text-gray-600;
+    color: var(--foreground);
+    opacity: 0.9;
 }
 
 .prose a {
-  @apply text-blue-600 hover:text-blue-800;
+    @apply text-primary underline underline-offset-2 transition-colors;
 }
 
-.prose strong {
-  @apply font-semibold text-gray-900;
+.prose a:hover {
+    @apply text-primary;
+    opacity: 0.8;
 }
 
 .prose code {
-  @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-gray-800;
+    @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+    color: var(--foreground);
 }
 
 .prose pre {
-  @apply bg-gray-100 p-4 rounded-lg overflow-x-auto mb-6;
+    @apply bg-muted p-4 rounded-lg overflow-x-auto mb-6 text-sm;
+    color: var(--foreground);
 }
 
 .prose blockquote {
-  @apply border-l-4 border-gray-300 pl-4 italic text-gray-700 my-6;
+    @apply border-l-4 border-border pl-4 italic my-6;
+    color: var(--foreground);
+    opacity: 0.8;
+}
+
+.prose strong {
+    @apply font-semibold;
+    color: var(--foreground);
+}
+
+.prose .button-primary {
+    @apply text-primary-foreground!;
+}
+
+/* =======================================================
+   THEME TOGGLE ICON VISIBILITY
+   ======================================================= */
+
+[data-theme="dark"] [data-theme-icon="dark"] {
+    display: block;
+}
+
+[data-theme="dark"] [data-theme-icon="light"] {
+    display: none;
+}
+
+[data-theme="light"] [data-theme-icon="light"] {
+    display: block;
+}
+
+[data-theme="light"] [data-theme-icon="dark"] {
+    display: none;
 }

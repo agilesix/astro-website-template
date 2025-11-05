@@ -20,7 +20,7 @@ const { items } = Astro.props;
 <div class="md:hidden">
   <button
     id="mobile-menu-button"
-    class="text-gray-700 hover:text-gray-900 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+    class="text-foreground hover:text-foreground/80 p-2 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
     aria-label="Toggle navigation menu"
     aria-expanded="false"
     aria-controls="mobile-menu-sheet"
@@ -62,14 +62,14 @@ const { items } = Astro.props;
   <!-- Sheet Panel -->
   <div
     id="mobile-menu-panel"
-    class="fixed right-0 top-0 h-full w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 ease-in-out translate-x-full overflow-y-auto pointer-events-auto"
+    class="fixed right-0 top-0 h-full w-full max-w-sm bg-popover text-popover-foreground shadow-xl transform transition-transform duration-300 ease-in-out translate-x-full overflow-y-auto pointer-events-auto"
   >
     <!-- Sheet Header -->
-    <div class="flex items-center justify-between p-4 border-b border-gray-200">
-      <h2 class="text-lg font-semibold text-gray-900">Menu</h2>
+    <div class="flex items-center justify-between p-4 border-b border-border">
+      <h2 class="text-lg font-semibold text-popover-foreground">Menu</h2>
       <button
         id="mobile-menu-close"
-        class="text-gray-700 hover:text-gray-900 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+        class="text-popover-foreground hover:text-popover-foreground/80 p-2 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
         aria-label="Close navigation menu"
       >
         <svg
@@ -100,7 +100,7 @@ const { items } = Astro.props;
               <div class="mt-2" role="none">
                 <button
                   id={mobileDropdownId}
-                  class="mobile-dropdown-toggle text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium w-full text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset rounded"
+                  class="mobile-dropdown-toggle text-popover-foreground hover:text-popover-foreground/80 px-3 py-2 text-sm font-medium w-full text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-ring focus:ring-inset rounded transition-colors"
                   aria-expanded="false"
                   aria-controls={mobileMenuId}
                   role="menuitem"
@@ -131,7 +131,7 @@ const { items } = Astro.props;
                   {item.items.map((subItem: NavItem) => (
                     <a
                       href={subItem.href}
-                      class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset rounded"
+                      class="block px-3 py-2 text-sm text-popover-foreground/80 hover:text-popover-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-inset rounded transition-colors"
                       role="menuitem"
                     >
                       {subItem.label}
@@ -144,7 +144,7 @@ const { items } = Astro.props;
             return (
               <a
                 href={item.href}
-                class="block px-3 py-2 text-sm text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset rounded"
+                class="block px-3 py-2 text-sm text-popover-foreground hover:text-popover-foreground/80 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-inset rounded transition-colors"
                 role="menuitem"
               >
                 {item.label}

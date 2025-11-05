@@ -26,14 +26,16 @@ const { title, description, lastUpdated } = Astro.props;
   socialLinks={socialLinks}
   companyName={siteConfig.companyName}
 >
-  <section class="py-20 px-4">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+  <section class="section-padding">
+    <div class="container-content">
+      <h1 class="text-heading-1" style="margin-bottom: var(--spacing-lg);">
         {title}
       </h1>
       {
         lastUpdated && (
-          <p class="text-sm text-gray-500 mb-8">Last updated: {lastUpdated}</p>
+          <p class="text-body-small" style="margin-bottom: var(--spacing-2xl);">
+            Last updated: {lastUpdated}
+          </p>
         )
       }
       <div class="prose prose-lg max-w-none">

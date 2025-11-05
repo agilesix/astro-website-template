@@ -44,7 +44,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -52,6 +52,36 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {/* Prevent FOUC by initializing theme immediately */}
+    <script is:inline>
+      (function () {
+        const THEME_STORAGE_KEY = "theme-preference";
+        const THEME_ATTRIBUTE = "data-theme";
+
+        function getThemePreference() {
+          try {
+            const stored = localStorage.getItem(THEME_STORAGE_KEY);
+            if (stored === "dark" || stored === "light") {
+              return stored;
+            }
+            if (
+              window.matchMedia &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches
+            ) {
+              return "dark";
+            }
+          } catch (e) {}
+          return "light";
+        }
+
+        function applyTheme(theme) {
+          document.documentElement.setAttribute(THEME_ATTRIBUTE, theme);
+        }
+
+        // Apply theme immediately before page renders
+        applyTheme(getThemePreference());
+      })();
+    </script>
   </head>
   <body>
     <Navigation logo={logo} logoHref={logoHref} items={navItems} />
