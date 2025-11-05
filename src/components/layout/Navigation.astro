@@ -45,6 +45,68 @@ const { logo, logoHref = "/", items } = Astro.props;
 
         <!-- Theme Selector Dropdown -->
         <div class="relative group ml-4" role="none">
+          {
+            /* Blocking inline script to set label immediately from localStorage */
+          }
+          <script is:inline>
+            (function () {
+              // Read theme directly from localStorage (blocking script)
+              const THEME_STORAGE_KEY = "theme-preference";
+              const THEMES = ["trustworthy", "playful", "innovative"];
+
+              try {
+                const stored = localStorage.getItem(THEME_STORAGE_KEY);
+                const theme =
+                  stored && THEMES.includes(stored) ? stored : "innovative";
+                const themeName =
+                  theme.charAt(0).toUpperCase() + theme.slice(1);
+
+                // Store in window for immediate access
+                window.__INITIAL_THEME_NAME__ = themeName;
+
+                // Use MutationObserver to catch label as soon as it's added to DOM
+                const observer = new MutationObserver((mutations, obs) => {
+                  const label = document.getElementById("theme-selector-label");
+                  if (label) {
+                    label.textContent = themeName;
+                    obs.disconnect(); // Stop observing once we've updated it
+                  }
+                });
+
+                // Start observing immediately
+                if (document.body) {
+                  observer.observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                  });
+                } else {
+                  // If body doesn't exist yet, wait for it
+                  const checkBody = () => {
+                    if (document.body) {
+                      observer.observe(document.body, {
+                        childList: true,
+                        subtree: true,
+                      });
+                    } else {
+                      setTimeout(checkBody, 0);
+                    }
+                  };
+                  checkBody();
+                }
+
+                // Also try immediate update in case element already exists
+                setTimeout(() => {
+                  const label = document.getElementById("theme-selector-label");
+                  if (label) {
+                    label.textContent = themeName;
+                  }
+                }, 0);
+              } catch (e) {
+                // Fallback if localStorage access fails
+                window.__INITIAL_THEME_NAME__ = "Theme";
+              }
+            })();
+          </script>
           <button
             id="theme-selector-button"
             class="text-foreground hover:text-foreground/80 px-3 py-2 text-sm font-medium flex items-center focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
@@ -68,7 +130,8 @@ const { logo, logoHref = "/", items } = Astro.props;
                 d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
               ></path>
             </svg>
-            <span id="theme-selector-label">Theme</span>
+            <span id="theme-selector-label" data-theme-label="Theme">Theme</span
+            >
             <svg
               class="ml-1 h-4 w-4 transition-transform"
               fill="none"

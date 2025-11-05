@@ -58,7 +58,7 @@ const {
     />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {/* Prevent FOUC by initializing theme immediately */}
+    {/* Prevent FOUC by initializing theme immediately - blocking script */}
     <script is:inline>
       (function () {
         const THEME_STORAGE_KEY = "theme-preference";
@@ -80,7 +80,13 @@ const {
         }
 
         // Apply theme immediately before page renders
-        applyTheme(getThemePreference());
+        const theme = getThemePreference();
+        applyTheme(theme);
+
+        // Store theme name in window for immediate access by Navigation component
+        window.__INITIAL_THEME__ = theme;
+        window.__INITIAL_THEME_NAME__ =
+          theme.charAt(0).toUpperCase() + theme.slice(1);
       })();
     </script>
   </head>
