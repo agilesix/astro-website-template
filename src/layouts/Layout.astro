@@ -44,12 +44,18 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="innovative">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Merriweather:wght@300;400;700;900&family=Public+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>{title}</title>
     <meta name="description" content={description} />
     {/* Prevent FOUC by initializing theme immediately */}
@@ -57,21 +63,16 @@ const {
       (function () {
         const THEME_STORAGE_KEY = "theme-preference";
         const THEME_ATTRIBUTE = "data-theme";
+        const THEMES = ["trustworthy", "playful", "innovative"];
 
         function getThemePreference() {
           try {
             const stored = localStorage.getItem(THEME_STORAGE_KEY);
-            if (stored === "dark" || stored === "light") {
+            if (stored && THEMES.includes(stored)) {
               return stored;
             }
-            if (
-              window.matchMedia &&
-              window.matchMedia("(prefers-color-scheme: dark)").matches
-            ) {
-              return "dark";
-            }
           } catch (e) {}
-          return "light";
+          return "innovative";
         }
 
         function applyTheme(theme) {

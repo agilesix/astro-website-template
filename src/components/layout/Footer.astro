@@ -28,22 +28,17 @@ const copyrightText =
   copyright || `© ${currentYear} ${companyName}. All rights reserved.`;
 ---
 
-<footer class="bg-secondary text-secondary-foreground py-12 px-4">
-  <div class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+<footer class="py-6 px-4 footer-theme">
+  <div class="max-w-7xl mx-auto footer-container">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-8 mt-8">
       {
         columns.map((column: FooterColumn) => (
           <div>
-            <h3 class="text-secondary-foreground font-semibold mb-4">
-              {column.title}
-            </h3>
+            <h3 class="font-semibold mb-4 footer-heading">{column.title}</h3>
             <ul class="space-y-2">
               {column.links.map((link: FooterLink) => (
                 <li>
-                  <a
-                    href={link.href}
-                    class="text-secondary-foreground/80 hover:text-secondary-foreground transition-colors"
-                  >
+                  <a href={link.href} class="footer-link transition-colors">
                     {link.label}
                   </a>
                 </li>
@@ -56,7 +51,7 @@ const copyrightText =
 
     <div class="border-t border-border pt-8 mt-8">
       <div class="flex flex-col md:flex-row justify-between items-center">
-        <p class="text-sm text-secondary-foreground/60 mb-4 md:mb-0">
+        <p class="text-sm mb-4 md:mb-0 footer-copyright">
           {copyrightText}
         </p>
         {
@@ -65,7 +60,7 @@ const copyrightText =
               {socialLinks.map((link: FooterLink) => (
                 <a
                   href={link.href}
-                  class="text-secondary-foreground/60 hover:text-secondary-foreground transition-colors"
+                  class="footer-link transition-colors"
                   aria-label={link.label}
                 >
                   {link.label}
@@ -78,3 +73,57 @@ const copyrightText =
     </div>
   </div>
 </footer>
+
+<style>
+  /* Default footer styles */
+  footer.footer-theme {
+    background: var(--secondary);
+    color: var(--secondary-foreground);
+  }
+
+  .footer-heading {
+    color: var(--secondary-foreground);
+  }
+
+  .footer-link {
+    color: var(--secondary-foreground);
+    opacity: 0.8;
+  }
+
+  .footer-link:hover {
+    opacity: 1;
+    color: var(--secondary-foreground);
+  }
+
+  .footer-copyright {
+    color: var(--secondary-foreground);
+    opacity: 0.6;
+  }
+
+  /* Trustworthy theme - match section background */
+  [data-theme="trustworthy"] footer.footer-theme,
+  [data-theme="trustworthy"] .footer-theme {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: var(--foreground);
+  }
+
+  [data-theme="trustworthy"] .footer-heading {
+    color: var(--foreground);
+  }
+
+  [data-theme="trustworthy"] .footer-link {
+    color: var(--foreground);
+    opacity: 0.8;
+  }
+
+  [data-theme="trustworthy"] .footer-link:hover {
+    opacity: 1;
+    color: var(--foreground);
+  }
+
+  [data-theme="trustworthy"] .footer-copyright {
+    color: var(--foreground);
+    opacity: 0.6;
+  }
+</style>

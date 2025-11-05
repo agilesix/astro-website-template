@@ -10,32 +10,133 @@ interface BannerProps {
 const { tagline, description, backgroundImage, ctaText, ctaHref } = Astro.props;
 ---
 
-<section
-  class="section-padding bg-primary text-primary-foreground"
-  style="background: linear-gradient(to right, var(--primary), var(--color-primary-dark));"
->
+<section class="section-padding banner-section banner-theme">
   <div class="container-content text-center">
-    <h1
-      class="text-heading-1"
-      style="color: var(--primary-foreground); margin-bottom: var(--spacing-lg);"
-    >
+    <h1 class="text-heading-1 banner-heading">
       {tagline}
     </h1>
-    <p
-      class="text-body-large"
-      style="color: var(--primary-foreground); opacity: 0.9; margin-bottom: var(--spacing-2xl);"
-    >
+    <p class="text-body-large banner-description">
       {description}
     </p>
     {
       ctaText && ctaHref && (
-        <a
-          href={ctaHref}
-          class="inline-block bg-primary-foreground text-primary px-8 py-3 rounded-lg font-semibold transition-colors hover:bg-primary-foreground/90"
-        >
+        <a href={ctaHref} class="button-primary banner-cta">
           {ctaText}
         </a>
       )
     }
   </div>
 </section>
+
+<style>
+  .banner-section {
+    background: var(--background);
+    color: var(--foreground);
+  }
+
+  .banner-heading {
+    margin-bottom: var(--spacing-lg);
+    color: var(--foreground);
+  }
+
+  .banner-description {
+    margin-bottom: var(--spacing-2xl);
+    color: var(--foreground);
+    opacity: 0.9;
+  }
+
+  /* Theme-specific banner styles */
+  [data-theme="trustworthy"] .banner-section {
+    background: var(--background);
+    background-image: none;
+    color: var(--foreground);
+  }
+
+  [data-theme="trustworthy"] .banner-heading,
+  [data-theme="trustworthy"] .banner-description {
+    color: var(--foreground);
+  }
+
+  /* Playful uses muted (darker) */
+  [data-theme="playful"] .banner-section {
+    background: var(--muted);
+    background-image: none;
+    color: var(--foreground);
+  }
+
+  [data-theme="playful"] .banner-heading {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: var(--font-family-heading);
+    font-weight: 400;
+    color: var(--foreground);
+  }
+
+  [data-theme="playful"] .banner-description {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: var(--font-family-base);
+    font-weight: 500;
+    color: var(--foreground);
+    opacity: 0.9;
+  }
+
+  [data-theme="innovative"] .banner-heading,
+  [data-theme="innovative"] .banner-description {
+    color: var(--foreground);
+  }
+
+  /* Banner CTA button styles */
+  .banner-cta {
+    border-radius: var(--radius-lg);
+  }
+
+  [data-theme="trustworthy"] .banner-cta {
+    border-radius: var(--radius-md);
+    background: var(--primary);
+    color: var(--primary-foreground);
+    text-transform: uppercase;
+    font-family: var(--font-family-nav);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    box-shadow: none;
+  }
+
+  [data-theme="playful"] .banner-cta {
+    border-radius: 0.375rem;
+    border: var(--border-width-thick) solid var(--foreground);
+    background: var(--primary) !important;
+    background-image: none !important;
+    color: var(--primary-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    font-family: var(--font-family-heading);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  [data-theme="playful"] .banner-cta:hover {
+    background: var(--primary) !important;
+    background-image: none !important;
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 0 var(--foreground);
+  }
+
+  [data-theme="innovative"] .banner-cta {
+    border-radius: var(--radius-md);
+    box-shadow: none;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border: var(--border-width) solid transparent;
+    font-weight: 500;
+  }
+
+  [data-theme="innovative"] .banner-cta:hover {
+    box-shadow: none;
+    background: var(--primary);
+    opacity: 0.9;
+    transform: none;
+  }
+</style>

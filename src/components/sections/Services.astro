@@ -5,7 +5,7 @@ interface Service {
   icon?: string;
 }
 
-interface ServicesProps {
+export interface ServicesProps {
   title?: string;
   subtitle?: string;
   services: Service[];
@@ -14,27 +14,31 @@ interface ServicesProps {
 const { title = "Our Services", subtitle, services } = Astro.props;
 ---
 
-<section class="py-20 px-4 bg-muted">
+<section class="py-20 px-4 services-section">
   <div class="max-w-7xl mx-auto">
     <div class="text-center mb-12">
-      <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
+      <h2
+        class="text-3xl md:text-4xl font-bold text-foreground mb-4 services-title"
+      >
         {title}
       </h2>
       {
         subtitle && (
-          <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p class="text-xl text-muted-foreground max-w-2xl mx-auto services-subtitle">
             {subtitle}
           </p>
         )
       }
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 services-grid"
+    >
       {
         services.map((service: Service) => (
-          <div class="bg-card text-card-foreground p-6 rounded-lg border border-border shadow-md hover:shadow-lg transition-shadow">
+          <div class="bg-card text-card-foreground p-6 rounded-lg border border-border transition-shadow service-card">
             {service.icon && <div class="text-4xl mb-4">{service.icon}</div>}
-            <h3 class="text-xl font-semibold text-card-foreground mb-3">
+            <h3 class="text-xl font-semibold text-card-foreground mb-3 service-title">
               {service.title}
             </h3>
             <p class="text-muted-foreground">{service.description}</p>
@@ -44,3 +48,81 @@ const { title = "Our Services", subtitle, services } = Astro.props;
     </div>
   </div>
 </section>
+
+<style>
+  /* Lighter weights for playful theme */
+  [data-theme="playful"] .services-title {
+    font-weight: 400;
+    font-family: var(--font-family-heading);
+  }
+
+  [data-theme="playful"] .service-title {
+    font-weight: 400;
+    font-family: var(--font-family-heading);
+  }
+
+  /* Shadcn-style clean cards for innovative theme */
+  [data-theme="innovative"] .service-card {
+    border: var(--border-width) solid var(--border);
+    box-shadow: none;
+    background: var(--card);
+    border-radius: var(--radius-lg);
+  }
+
+  [data-theme="innovative"] .service-card:hover {
+    box-shadow: none;
+    border-color: var(--border);
+  }
+
+  /* Theme-specific section backgrounds */
+  .services-section {
+    background: var(--background);
+  }
+
+  /* Playful uses muted (darker) */
+  [data-theme="playful"] .services-section {
+    background: var(--muted);
+  }
+
+  /* Trustworthy theme - tighter spacing and partial lines */
+  [data-theme="trustworthy"] .services-title {
+    font-size: 2rem;
+  }
+
+  [data-theme="trustworthy"] .services-subtitle {
+    font-size: 1.125rem;
+  }
+
+  [data-theme="trustworthy"] .service-title {
+    font-size: 1.25rem;
+  }
+
+  [data-theme="trustworthy"] .services-grid {
+    gap: var(--spacing-lg);
+  }
+
+  [data-theme="trustworthy"] .service-card {
+    border: none !important;
+    border-radius: 0;
+    position: relative;
+    padding: var(--spacing-md);
+    padding-bottom: var(--spacing-lg);
+  }
+
+  /* Add partial horizontal lines between cards in grid */
+  [data-theme="trustworthy"] .service-card::after {
+    content: "";
+    position: absolute;
+    bottom: calc(-1 * var(--spacing-lg) / 2);
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background-color: var(--border);
+    z-index: 1;
+  }
+
+  /* Hide line for last row (last 3 cards) */
+  [data-theme="trustworthy"] .service-card:nth-last-child(-n + 3)::after {
+    display: none;
+  }
+</style>

@@ -22,7 +22,7 @@ const { logo, logoHref = "/", items } = Astro.props;
 ---
 
 <nav
-  class="bg-background border-b border-border shadow-sm relative transition-colors"
+  class="bg-background border-b border-border relative transition-colors nav-theme"
   role="navigation"
   aria-label="Main navigation"
 >
@@ -42,81 +42,127 @@ const { logo, logoHref = "/", items } = Astro.props;
       <!-- Desktop Navigation -->
       <div class="hidden md:flex md:items-center md:space-x-4">
         <DesktopNavigation items={items} />
-        <!-- Theme Toggle Button -->
-        <button
-          id="theme-toggle"
-          class="ml-4 p-2 text-foreground hover:text-foreground/80 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
-          aria-label="Toggle theme"
-          type="button"
-        >
-          <!-- Sun icon (shown in dark mode) -->
-          <svg
-            id="theme-toggle-light-icon"
-            class="w-5 h-5 hidden"
-            data-theme-icon="dark"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
+
+        <!-- Theme Selector Dropdown -->
+        <div class="relative group ml-4" role="none">
+          <button
+            id="theme-selector-button"
+            class="text-foreground hover:text-foreground/80 px-3 py-2 text-sm font-medium flex items-center focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="theme-selector-menu"
+            role="menuitem"
+            type="button"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-            ></path>
-          </svg>
-          <!-- Moon icon (shown in light mode) -->
-          <svg
-            id="theme-toggle-dark-icon"
-            class="w-5 h-5"
-            data-theme-icon="light"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
+            <svg
+              class="w-4 h-4 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+              ></path>
+            </svg>
+            <span id="theme-selector-label">Theme</span>
+            <svg
+              class="ml-1 h-4 w-4 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div
+            id="theme-selector-menu"
+            class="absolute right-0 mt-2 w-48 bg-popover text-popover-foreground border border-border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 z-20"
+            role="menu"
+            aria-labelledby="theme-selector-button"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-            ></path>
-          </svg>
-        </button>
+            <div class="py-1">
+              <button
+                data-theme-option="trustworthy"
+                class="w-full text-left px-4 py-2 text-sm text-popover-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ring transition-colors flex items-center justify-between"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <span>Trustworthy</span>
+                <svg
+                  class="w-4 h-4 hidden theme-check-icon"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </button>
+              <button
+                data-theme-option="playful"
+                class="w-full text-left px-4 py-2 text-sm text-popover-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ring transition-colors flex items-center justify-between"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <span>Playful</span>
+                <svg
+                  class="w-4 h-4 hidden theme-check-icon"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </button>
+              <button
+                data-theme-option="innovative"
+                class="w-full text-left px-4 py-2 text-sm text-popover-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ring transition-colors flex items-center justify-between"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <span>Innovative</span>
+                <svg
+                  class="w-4 h-4 hidden theme-check-icon"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Mobile Navigation -->
       <div class="md:hidden flex items-center space-x-2">
-        <!-- Theme Toggle Button (Mobile) -->
+        <!-- Theme Selector Button (Mobile) -->
         <button
-          id="theme-toggle-mobile"
+          id="theme-selector-button-mobile"
           class="p-2 text-foreground hover:text-foreground/80 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
-          aria-label="Toggle theme"
+          aria-label="Theme selector"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="theme-selector-menu-mobile"
           type="button"
         >
-          <!-- Sun icon (shown in dark mode) -->
           <svg
-            id="theme-toggle-light-icon-mobile"
-            class="w-5 h-5 hidden"
-            data-theme-icon="dark"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-            ></path>
-          </svg>
-          <!-- Moon icon (shown in light mode) -->
-          <svg
-            id="theme-toggle-dark-icon-mobile"
             class="w-5 h-5"
-            data-theme-icon="light"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -126,7 +172,7 @@ const { logo, logoHref = "/", items } = Astro.props;
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
             ></path>
           </svg>
         </button>
@@ -136,27 +182,118 @@ const { logo, logoHref = "/", items } = Astro.props;
   </div>
 </nav>
 
+<!-- Mobile Theme Selector Menu -->
+<div
+  id="theme-selector-menu-mobile"
+  class="fixed inset-0 z-50 md:hidden pointer-events-none"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Theme selector"
+  aria-hidden="true"
+>
+  <div
+    id="theme-selector-backdrop"
+    class="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 opacity-0 pointer-events-none"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    id="theme-selector-panel"
+    class="fixed right-0 top-0 h-full w-full max-w-sm bg-popover text-popover-foreground shadow-xl transform transition-transform duration-300 ease-in-out translate-x-full overflow-y-auto pointer-events-auto"
+  >
+    <div class="flex items-center justify-between p-4 border-b border-border">
+      <h2 class="text-lg font-semibold text-popover-foreground">Theme</h2>
+      <button
+        id="theme-selector-close"
+        class="text-popover-foreground hover:text-popover-foreground/80 p-2 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded transition-colors"
+        aria-label="Close theme selector"
+      >
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="p-4 space-y-2">
+      <button
+        data-theme-option="trustworthy"
+        class="w-full text-left px-4 py-3 text-sm text-popover-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-inset rounded transition-colors flex items-center justify-between"
+        role="menuitem"
+      >
+        <span>Trustworthy</span>
+        <svg
+          class="w-4 h-4 hidden theme-check-icon-mobile"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </button>
+      <button
+        data-theme-option="playful"
+        class="w-full text-left px-4 py-3 text-sm text-popover-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-inset rounded transition-colors flex items-center justify-between"
+        role="menuitem"
+      >
+        <span>Playful</span>
+        <svg
+          class="w-4 h-4 hidden theme-check-icon-mobile"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </button>
+      <button
+        data-theme-option="innovative"
+        class="w-full text-left px-4 py-3 text-sm text-popover-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-inset rounded transition-colors flex items-center justify-between"
+        role="menuitem"
+      >
+        <span>Innovative</span>
+        <svg
+          class="w-4 h-4 hidden theme-check-icon-mobile"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
-  // Theme toggle functionality
+  // Theme management functionality
   (function () {
     const THEME_STORAGE_KEY = "theme-preference";
     const THEME_ATTRIBUTE = "data-theme";
 
+    const THEMES = ["trustworthy", "playful", "innovative"];
+
     // Get the initial theme preference
     function getThemePreference(): string {
-      // Check localStorage first
       const stored = localStorage.getItem(THEME_STORAGE_KEY);
-      if (stored === "dark" || stored === "light") {
+      if (stored && THEMES.includes(stored)) {
         return stored;
       }
-
-      // Fall back to system preference
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        return "dark";
-      }
-
-      // Default to light
-      return "light";
+      // Default to innovative
+      return "innovative";
     }
 
     // Apply theme to document
@@ -164,56 +301,51 @@ const { logo, logoHref = "/", items } = Astro.props;
       const root = document.documentElement;
       root.setAttribute(THEME_ATTRIBUTE, theme);
       localStorage.setItem(THEME_STORAGE_KEY, theme);
+      updateThemeUI();
     }
 
-    // Initialize theme on page load (only if not already set)
-    function initTheme() {
-      // Check if theme is already set by inline script in head
+    // Update theme UI (labels, checkmarks)
+    function updateThemeUI() {
       const currentTheme =
-        document.documentElement.getAttribute(THEME_ATTRIBUTE);
-      if (!currentTheme || currentTheme === "light") {
-        const theme = getThemePreference();
-        applyTheme(theme);
-        updateThemeIcons(theme);
-      } else {
-        // Theme already set, just update icons
-        updateThemeIcons(currentTheme);
+        document.documentElement.getAttribute(THEME_ATTRIBUTE) || "innovative";
+
+      // Update theme selector label
+      const themeLabel = document.getElementById("theme-selector-label");
+      if (themeLabel) {
+        themeLabel.textContent =
+          currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1);
       }
-    }
 
-    // Toggle theme
-    function toggleTheme() {
-      const currentTheme =
-        document.documentElement.getAttribute(THEME_ATTRIBUTE) || "light";
-      const newTheme = currentTheme === "dark" ? "light" : "dark";
-      applyTheme(newTheme);
-      updateThemeIcons(newTheme);
-    }
+      // Update checkmarks
+      document.querySelectorAll("[data-theme-option]").forEach((button) => {
+        const option = button.getAttribute("data-theme-option");
+        const checkIcon = button.querySelector(".theme-check-icon");
+        const checkIconMobile = button.querySelector(
+          ".theme-check-icon-mobile"
+        );
 
-    // Update theme toggle icons
-    function updateThemeIcons(theme: string) {
-      const lightIcons = document.querySelectorAll('[data-theme-icon="dark"]');
-      const darkIcons = document.querySelectorAll('[data-theme-icon="light"]');
-
-      lightIcons.forEach((icon) => {
-        if (theme === "dark") {
-          icon.classList.remove("hidden");
+        if (option === currentTheme) {
+          checkIcon?.classList.remove("hidden");
+          checkIconMobile?.classList.remove("hidden");
         } else {
-          icon.classList.add("hidden");
+          checkIcon?.classList.add("hidden");
+          checkIconMobile?.classList.add("hidden");
         }
       });
+    }
 
-      darkIcons.forEach((icon) => {
-        if (theme === "light") {
-          icon.classList.remove("hidden");
-        } else {
-          icon.classList.add("hidden");
-        }
-      });
+    // Set theme
+    function setTheme(theme: string) {
+      applyTheme(theme);
+    }
+
+    // Initialize theme on page load
+    function initTheme() {
+      const theme = getThemePreference();
+      applyTheme(theme);
     }
 
     // Initialize theme and icons after DOM is ready
-    // (Theme should already be set by inline script in head)
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", initTheme);
     } else {
@@ -222,26 +354,136 @@ const { logo, logoHref = "/", items } = Astro.props;
 
     // Set up event listeners after DOM is ready
     document.addEventListener("DOMContentLoaded", () => {
-      const themeToggle = document.getElementById("theme-toggle");
-      const themeToggleMobile = document.getElementById("theme-toggle-mobile");
+      // Desktop theme selector dropdown
+      const themeSelectorButton = document.getElementById(
+        "theme-selector-button"
+      );
+      const themeSelectorMenu = document.getElementById("theme-selector-menu");
 
-      if (themeToggle) {
-        themeToggle.addEventListener("click", toggleTheme);
-      }
+      if (themeSelectorButton && themeSelectorMenu) {
+        // Toggle dropdown on click
+        themeSelectorButton.addEventListener("click", (e) => {
+          e.preventDefault();
+          const isExpanded =
+            themeSelectorButton.getAttribute("aria-expanded") === "true";
+          themeSelectorButton.setAttribute(
+            "aria-expanded",
+            String(!isExpanded)
+          );
+          themeSelectorMenu.classList.toggle("opacity-0", isExpanded);
+          themeSelectorMenu.classList.toggle("invisible", isExpanded);
+          themeSelectorMenu.classList.toggle("opacity-100", !isExpanded);
+          themeSelectorMenu.classList.toggle("visible", !isExpanded);
+        });
 
-      if (themeToggleMobile) {
-        themeToggleMobile.addEventListener("click", toggleTheme);
-      }
+        // Theme option buttons
+        document.querySelectorAll("[data-theme-option]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const theme = button.getAttribute("data-theme-option");
+            if (theme) {
+              setTheme(theme);
+              // Close dropdown
+              themeSelectorButton.setAttribute("aria-expanded", "false");
+              themeSelectorMenu.classList.add("opacity-0", "invisible");
+              themeSelectorMenu.classList.remove("opacity-100", "visible");
+            }
+          });
+        });
 
-      // Listen for system theme changes
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", (e) => {
-          // Only update if user hasn't set a preference
-          if (!localStorage.getItem(THEME_STORAGE_KEY)) {
-            applyTheme(e.matches ? "dark" : "light");
+        // Close dropdown when clicking outside
+        document.addEventListener("click", (e) => {
+          if (
+            !themeSelectorButton.contains(e.target as Node) &&
+            !themeSelectorMenu.contains(e.target as Node)
+          ) {
+            themeSelectorButton.setAttribute("aria-expanded", "false");
+            themeSelectorMenu.classList.add("opacity-0", "invisible");
+            themeSelectorMenu.classList.remove("opacity-100", "visible");
           }
         });
+      }
+
+      // Mobile theme selector
+      const themeSelectorButtonMobile = document.getElementById(
+        "theme-selector-button-mobile"
+      );
+      const themeSelectorMenuMobile = document.getElementById(
+        "theme-selector-menu-mobile"
+      );
+      const themeSelectorBackdrop = document.getElementById(
+        "theme-selector-backdrop"
+      );
+      const themeSelectorPanel = document.getElementById(
+        "theme-selector-panel"
+      );
+      const themeSelectorClose = document.getElementById(
+        "theme-selector-close"
+      );
+
+      if (
+        themeSelectorButtonMobile &&
+        themeSelectorMenuMobile &&
+        themeSelectorBackdrop &&
+        themeSelectorPanel
+      ) {
+        const openMobileMenu = () => {
+          themeSelectorMenuMobile.setAttribute("aria-hidden", "false");
+          themeSelectorMenuMobile.classList.remove("pointer-events-none");
+          themeSelectorButtonMobile.setAttribute("aria-expanded", "true");
+          themeSelectorBackdrop.classList.remove(
+            "opacity-0",
+            "pointer-events-none"
+          );
+          themeSelectorBackdrop.classList.add(
+            "opacity-100",
+            "pointer-events-auto"
+          );
+          themeSelectorPanel.classList.remove("translate-x-full");
+          themeSelectorPanel.classList.add("translate-x-0");
+          document.body.style.overflow = "hidden";
+          setTimeout(() => themeSelectorClose?.focus(), 100);
+        };
+
+        const closeMobileMenu = () => {
+          themeSelectorMenuMobile.setAttribute("aria-hidden", "true");
+          themeSelectorMenuMobile.classList.add("pointer-events-none");
+          themeSelectorButtonMobile.setAttribute("aria-expanded", "false");
+          themeSelectorBackdrop.classList.remove(
+            "opacity-100",
+            "pointer-events-auto"
+          );
+          themeSelectorBackdrop.classList.add(
+            "opacity-0",
+            "pointer-events-none"
+          );
+          themeSelectorPanel.classList.remove("translate-x-0");
+          themeSelectorPanel.classList.add("translate-x-full");
+          document.body.style.overflow = "";
+          themeSelectorButtonMobile?.focus();
+        };
+
+        themeSelectorButtonMobile.addEventListener("click", openMobileMenu);
+        themeSelectorClose?.addEventListener("click", closeMobileMenu);
+        themeSelectorBackdrop.addEventListener("click", closeMobileMenu);
+
+        // Theme option buttons (mobile)
+        document.querySelectorAll("[data-theme-option]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const theme = button.getAttribute("data-theme-option");
+            if (theme) {
+              setTheme(theme);
+              closeMobileMenu();
+            }
+          });
+        });
+
+        // Close on Escape
+        themeSelectorMenuMobile.addEventListener("keydown", (e) => {
+          if ((e as KeyboardEvent).key === "Escape") {
+            closeMobileMenu();
+          }
+        });
+      }
     });
   })();
 </script>

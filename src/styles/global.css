@@ -12,11 +12,16 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   transition: background-color 0.2s, color 0.2s;
+  font-family: var(--font-family-base);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-heading);
 }
 
 :root,
 [data-theme="light"] {
-    /* Semantic color tokens - ShadCN convention */
+    /* Default theme - Innovative (ShadCN-inspired) */
     --background: #ffffff;
     --foreground: #111827;
     
@@ -47,6 +52,10 @@ body {
     
     /* Additional semantic tokens for our design system */
     --radius: 0.5rem;
+    
+    /* Typography */
+    --font-family-base: system-ui, -apple-system, sans-serif;
+    --font-family-heading: system-ui, -apple-system, sans-serif;
     
     /* Legacy token mappings (for backward compatibility) */
     --color-primary: var(--primary);
@@ -80,6 +89,10 @@ body {
     --radius-xl: 0.75rem;
     --radius-2xl: 1rem;
     
+    /* Border width tokens */
+    --border-width: 1px;
+    --border-width-thick: 2px;
+    
     /* Transition tokens */
     --transition-fast: 150ms;
     --transition-normal: 250ms;
@@ -91,51 +104,226 @@ body {
     --section-padding-x: 1rem;
 }
 
-[data-theme="dark"] {
-    /* Dark theme semantic tokens */
-    --background: #111827;
-    --foreground: #f3f4f6;
+
+/* =======================================================
+   THEME VARIATIONS
+   ======================================================= */
+
+/* Trustworthy Theme (NY Times-inspired) */
+[data-theme="trustworthy"] {
+    --background: #ffffff;
+    --foreground: #000000;
     
-    --card: #1f2937;
-    --card-foreground: #f3f4f6;
+    --card: #ffffff;
+    --card-foreground: #000000;
     
-    --popover: #1f2937;
-    --popover-foreground: #f3f4f6;
+    --popover: #ffffff;
+    --popover-foreground: #000000;
     
-    --primary: #3b82f6;
-    --primary-foreground: #111827;
+    --primary: #8B1538; /* Cardinal red/maroon - richer than NYT red */
+    --primary-foreground: #ffffff;
     
-    --secondary: #1f2937;
-    --secondary-foreground: #f3f4f6;
+    --secondary: #f5f5f5;
+    --secondary-foreground: #000000;
     
-    --muted: #1f2937;
-    --muted-foreground: #9ca3af;
+    --muted: #f5f5f5;
+    --muted-foreground: #666666;
     
-    --accent: #374151;
-    --accent-foreground: #f3f4f6;
+    --accent: #f0f0f0;
+    --accent-foreground: #000000;
+    
+    --destructive: #c00;
+    --destructive-foreground: #ffffff;
+    
+    --border: #e5e5e5; /* Very subtle borders */
+    --input: #e5e5e5;
+    --ring: #8B1538; /* Match primary cardinal red */
+    
+    /* Typography - Merriweather for stately, attractive serif */
+    --font-family-base: "Merriweather", "Georgia", "Times New Roman", serif;
+    --font-family-heading: "Merriweather", "Georgia", "Times New Roman", serif;
+    --font-family-nav: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    
+    /* Spacing - tighter, newspaper-style */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 0.875rem;
+    --spacing-lg: 1.25rem;
+    --spacing-xl: 1.75rem;
+    --spacing-2xl: 2.5rem;
+    --spacing-3xl: 3.5rem;
+    --spacing-4xl: 4.5rem;
+    
+    /* Borders - minimal, partial lines */
+    --border-width: 1px;
+    --border-width-thick: 1px;
+    --radius: 0.375rem; /* Some rounding for buttons */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+    
+    /* Container - wide for newspaper feel */
+    --container-max-width: 1200px;
+    --section-padding-y: 3rem;
+    --section-padding-x: 1.5rem;
+    
+    /* Shadows - none for minimalist feel */
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+}
+
+
+/* Playful Theme (Mother Duck-inspired) */
+[data-theme="playful"] {
+    --background: #f8f7f4; /* Light beige/off-white pastel */
+    --foreground: #1a1a1a; /* Dark for contrast */
+    
+    --card: #ffffff;
+    --card-foreground: #1a1a1a;
+    
+    --popover: #ffffff;
+    --popover-foreground: #1a1a1a;
+    
+    --primary: #50a0e0; /* Saturated medium blue */
+    --primary-foreground: #ffffff;
+    
+    --secondary: #ffdd00; /* Bright saturated yellow */
+    --secondary-foreground: #1a1a1a;
+    
+    --muted: #f0ede8; /* Pastel background */
+    --muted-foreground: #666666;
+    
+    --accent: #ffb3d9; /* Pastel pink */
+    --accent-foreground: #1a1a1a;
+    
+    --destructive: #ff4444; /* Saturated red */
+    --destructive-foreground: #ffffff;
+    
+    --border: #1a1a1a; /* Bold, thick borders */
+    --input: #1a1a1a;
+    --ring: #50a0e0;
+    
+    /* Typography - quirky, friendly fonts */
+    --font-family-base: "Roboto Flex", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --font-family-heading: "Space Mono", "Courier New", monospace;
+    
+    /* Spacing - generous and airy */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2.5rem;
+    --spacing-xl: 4rem;
+    --spacing-2xl: 6rem;
+    --spacing-3xl: 8rem;
+    --spacing-4xl: 10rem;
+    
+    /* Borders - thick, no rounded edges, flat design */
+    --border-width: 3px;
+    --border-width-thick: 4px;
+    --radius: 0;
+    --radius-sm: 0;
+    --radius-md: 0;
+    --radius-lg: 0;
+    --radius-xl: 0;
+    --radius-2xl: 0;
+    
+    /* Container */
+    --container-max-width: 1200px;
+    --section-padding-y: 6rem;
+    --section-padding-x: 2rem;
+    
+    /* Shadows - none for flat design */
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+}
+
+
+/* Innovative Theme (ShadCN/Vercel-inspired) - Default */
+[data-theme="innovative"] {
+    --background: #fafafa; /* Light gray background like shadcn */
+    --foreground: #09090b; /* Dark gray/black text */
+    
+    --card: #ffffff; /* White cards on light gray */
+    --card-foreground: #09090b;
+    
+    --popover: #ffffff;
+    --popover-foreground: #09090b;
+    
+    --primary: #18181b; /* ShadCN style dark primary */
+    --primary-foreground: #ffffff;
+    
+    --secondary: #f4f4f5; /* Light gray secondary */
+    --secondary-foreground: #09090b;
+    
+    --muted: #f4f4f5; /* Light gray muted */
+    --muted-foreground: #71717a; /* Medium gray text */
+    
+    --accent: #f4f4f5;
+    --accent-foreground: #09090b;
     
     --destructive: #ef4444;
     --destructive-foreground: #ffffff;
     
-    --border: #4b5563;
-    --input: #4b5563;
-    --ring: #3b82f6;
+    --border: #e4e4e7; /* Very subtle light gray borders */
+    --input: #e4e4e7;
+    --ring: #18181b;
     
-    /* Legacy token mappings for dark theme */
+    /* Typography - modern, clean (Inter/Geist inspired) */
+    --font-family-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-family-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    
+    /* Spacing - generous, modern */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    --spacing-4xl: 6rem;
+    
+    /* Borders - clean rounded edges */
+    --border-width: 1px;
+    --border-width-thick: 1px;
+    --radius: 0.5rem;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+    
+    /* Container */
+    --container-max-width: 1120px;
+    --section-padding-y: 5rem;
+    --section-padding-x: 1.5rem;
+    
+    /* Shadows - subtle, clean shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    
+    /* Legacy token mappings for innovative theme */
     --color-primary: var(--primary);
-    --color-primary-hover: #60a5fa;
-    --color-primary-light: #93c5fd;
-    --color-primary-dark: #1d4ed8;
+    --color-primary-hover: #27272a;
+    --color-primary-light: #3f3f46;
+    --color-primary-dark: #09090b;
     --color-text-primary: var(--foreground);
-    --color-text-secondary: #d1d5db;
-    --color-text-tertiary: #9ca3af;
-    --color-text-muted: #6b7280;
+    --color-text-secondary: #71717a;
+    --color-text-tertiary: #a1a1aa;
+    --color-text-muted: #d4d4d8;
     --color-bg-default: var(--background);
     --color-bg-muted: var(--muted);
     --color-bg-subtle: var(--accent);
     --color-border-default: var(--border);
-    --color-border-light: #6b7280;
+    --color-border-light: #f4f4f5;
 }
+
+
+
 
 /* =======================================================
    MAP CSS VARIABLES TO TAILWIND CLASSES
@@ -187,22 +375,221 @@ body {
    ======================================================= */
 
 .button-primary {
-    @apply bg-primary text-primary-foreground font-semibold rounded-lg transition-colors;
+    @apply bg-primary text-primary-foreground font-semibold transition-colors;
     padding: var(--spacing-md) var(--spacing-2xl);
+    border-radius: var(--radius-lg);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .button-primary:hover {
     background-color: var(--color-primary-hover);
 }
 
+/* Theme-specific button styles */
+[data-theme="trustworthy"] .button-primary {
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-nav);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+    box-shadow: none;
+    background: var(--primary);
+    color: var(--primary-foreground);
+}
+
+[data-theme="playful"] .button-primary {
+    border-radius: 0.375rem; /* Slightly rounded like Mother Duck buttons */
+    border: var(--border-width-thick) solid var(--foreground);
+    font-weight: 600;
+    background: var(--primary) !important;
+    background-image: none !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: var(--font-family-heading);
+}
+
+[data-theme="playful"] .button-primary:hover {
+    background: var(--primary) !important;
+    background-image: none !important;
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 0 var(--foreground);
+}
+
+[data-theme="innovative"] .button-primary {
+    border-radius: var(--radius-md);
+    border: var(--border-width) solid transparent;
+    box-shadow: none; /* Clean lines */
+    font-weight: 500; /* Medium weight, not bold */
+}
+
+[data-theme="innovative"] .button-primary:hover {
+    box-shadow: none;
+    background: var(--primary);
+    opacity: 0.9;
+    transition: all 0.2s ease;
+}
+
 .card {
-    @apply bg-card text-card-foreground rounded-lg;
+    @apply bg-card text-card-foreground;
     padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    border: var(--border-width) solid var(--border);
+}
+
+/* Theme-specific card styles */
+[data-theme="trustworthy"] .card {
+    border-radius: 0;
+    border: none;
+    border-left: 3px solid var(--primary);
+    box-shadow: none;
+    background: var(--muted);
+    padding: var(--spacing-xl);
+}
+
+/* Trustworthy theme service cards - no borders, just dividing lines */
+[data-theme="trustworthy"] .service-card {
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    color: var(--foreground) !important;
+}
+
+[data-theme="playful"] .card {
+    border-radius: 0;
+    border: var(--border-width-thick) solid var(--border);
+    box-shadow: none;
+}
+
+[data-theme="innovative"] .card {
+    border-radius: var(--radius-lg);
+    border: var(--border-width) solid var(--border);
+    box-shadow: none; /* Shadcn uses no shadows on cards, just borders */
+    background: var(--card);
 }
 
 .callout {
-    @apply bg-muted text-muted-foreground rounded-lg;
+    @apply bg-muted text-muted-foreground;
     padding: var(--spacing-2xl);
+    border-radius: var(--radius-lg);
+    border: var(--border-width) solid var(--border);
+}
+
+/* Theme-specific callout styles */
+[data-theme="trustworthy"] .callout {
+    border-radius: 0;
+    border: none;
+    border-left: 3px solid var(--primary);
+    box-shadow: none;
+}
+
+[data-theme="playful"] .callout {
+    border-radius: 0;
+    border: var(--border-width-thick) solid var(--border);
+    box-shadow: none;
+}
+
+[data-theme="innovative"] .callout {
+    border-radius: var(--radius-lg);
+    border: var(--border-width) solid var(--border);
+    box-shadow: none; /* Clean lines */
+    background: var(--muted);
+}
+
+/* Theme-specific navigation styles */
+[data-theme="trustworthy"] .nav-theme {
+    border-bottom: 1px solid var(--border);
+    box-shadow: none;
+}
+
+[data-theme="trustworthy"] .nav-theme a,
+[data-theme="trustworthy"] .nav-theme button,
+[data-theme="trustworthy"] .nav-theme #theme-selector-button {
+    font-family: var(--font-family-nav);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+[data-theme="trustworthy"] .nav-theme a:hover,
+[data-theme="trustworthy"] .nav-theme button[data-dropdown-button]:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+[data-theme="playful"] .nav-theme {
+    border-bottom: var(--border-width-thick) solid var(--border);
+    box-shadow: none;
+}
+
+[data-theme="playful"] .nav-theme a,
+[data-theme="playful"] .nav-theme button,
+[data-theme="playful"] .nav-theme #theme-selector-button {
+    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    position: relative;
+    font-family: var(--font-family-heading);
+}
+
+[data-theme="playful"] .nav-theme #theme-selector-button span {
+    text-transform: uppercase;
+}
+
+[data-theme="playful"] .nav-theme {
+    font-family: var(--font-family-heading);
+}
+
+[data-theme="playful"] .nav-theme a::after,
+[data-theme="playful"] .nav-theme button[data-dropdown-button]::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--foreground);
+    transition: width 0.3s ease;
+}
+
+[data-theme="playful"] .nav-theme a:hover::after,
+[data-theme="playful"] .nav-theme button[data-dropdown-button]:hover::after {
+    width: 100%;
+}
+
+/* Ensure dropdown buttons have proper positioning */
+[data-theme="playful"] .nav-theme button[data-dropdown-button] {
+    position: relative;
+}
+
+[data-theme="innovative"] .nav-theme {
+    border-bottom: var(--border-width) solid var(--border);
+    box-shadow: none; /* Clean lines, no shadow */
+    background: var(--background);
+}
+
+/* Innovative theme nav link hover effects */
+[data-theme="innovative"] .nav-theme a,
+[data-theme="innovative"] .nav-theme button[data-dropdown-button] {
+    border-radius: var(--radius-md);
+    transition: background-color 0.2s ease;
+}
+
+[data-theme="innovative"] .nav-theme a:hover,
+[data-theme="innovative"] .nav-theme button[data-dropdown-button]:hover {
+    background-color: var(--muted);
+}
+
+/* Ensure no gradients in playful theme */
+[data-theme="playful"] .banner-section {
+    background: var(--muted) !important;
+    background-image: none !important;
 }
 
 .container-content {
@@ -215,6 +602,17 @@ body {
     padding-inline: var(--section-padding-x);
 }
 
+/* Trustworthy theme - partial faint line separators for sections */
+[data-theme="trustworthy"] .section-padding:not(:last-child)::after {
+    content: '';
+    display: block;
+    margin-top: var(--section-padding-y);
+    margin-left: 10%;
+    margin-right: 10%;
+    height: 1px;
+    background-color: var(--border);
+}
+
 /* =======================================================
    TYPOGRAPHY UTILITIES
    ======================================================= */
@@ -222,6 +620,53 @@ body {
 .text-heading-1 {
     @apply font-bold leading-tight text-foreground;
     font-size: clamp(2.25rem, 5vw, 3rem);
+}
+
+[data-theme="playful"] .text-heading-1,
+[data-theme="playful"] .text-heading-2,
+[data-theme="playful"] .text-heading-3 {
+    font-weight: 400;
+}
+
+/* Smaller text sizes for trustworthy theme */
+[data-theme="trustworthy"] .text-heading-1 {
+    font-size: clamp(1.875rem, 4vw, 2.5rem);
+}
+
+[data-theme="trustworthy"] .text-heading-2 {
+    font-size: 1.25rem;
+}
+
+[data-theme="trustworthy"] .text-heading-3 {
+    font-size: 1.125rem;
+}
+
+[data-theme="trustworthy"] .text-body-large {
+    font-size: 1.125rem;
+}
+
+[data-theme="trustworthy"] .text-body {
+    font-size: 1rem;
+}
+
+[data-theme="trustworthy"] .prose {
+    font-size: 1rem;
+}
+
+[data-theme="trustworthy"] .prose h1 {
+    font-size: 1.875rem;
+}
+
+[data-theme="trustworthy"] .prose h2 {
+    font-size: 1.5rem;
+}
+
+[data-theme="trustworthy"] .prose h3 {
+    font-size: 1.25rem;
+}
+
+[data-theme="trustworthy"] .prose h4 {
+    font-size: 1.125rem;
 }
 
 .text-heading-2 {
@@ -259,6 +704,7 @@ body {
 .prose {
     @apply text-base leading-relaxed max-w-prose;
     color: var(--foreground);
+    font-family: var(--font-family-base);
 }
 
 .prose>p {
@@ -279,6 +725,13 @@ body {
 .prose h4 {
     @apply font-semibold leading-tight mt-10 mb-4;
     color: var(--foreground);
+}
+
+[data-theme="playful"] .prose h1,
+[data-theme="playful"] .prose h2,
+[data-theme="playful"] .prose h3,
+[data-theme="playful"] .prose h4 {
+    font-weight: 400;
 }
 
 .prose h1 {
@@ -345,25 +798,36 @@ body {
 }
 
 .prose .button-primary {
-    @apply text-primary-foreground!;
+    @apply text-primary-foreground no-underline;
 }
 
-/* =======================================================
-   THEME TOGGLE ICON VISIBILITY
-   ======================================================= */
-
-[data-theme="dark"] [data-theme-icon="dark"] {
-    display: block;
+.prose .button-primary:hover {
+    color: var(--primary-foreground) !important;
 }
 
-[data-theme="dark"] [data-theme-icon="light"] {
-    display: none;
+/* Footer styles for trustworthy theme */
+[data-theme="trustworthy"] footer.footer-theme {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
 }
 
-[data-theme="light"] [data-theme-icon="light"] {
-    display: block;
+/* Trustworthy theme footer links - add underlines */
+[data-theme="trustworthy"] .footer-link {
+    text-decoration: underline !important;
+    text-decoration-thickness: 1px !important;
+    text-underline-offset: 2px !important;
 }
 
-[data-theme="light"] [data-theme-icon="dark"] {
-    display: none;
+[data-theme="trustworthy"] .footer-link:hover {
+    text-decoration: none !important;
+}
+
+/* Add border-top only for trustworthy theme */
+[data-theme="trustworthy"] .footer-container {
+    border-top: 1px solid var(--border) !important;
+}
+
+[data-theme="trustworthy"] .services-section {
+    padding-top: var(--spacing-lg) !important;
+    padding-bottom: var(--spacing-lg) !important;
 }
