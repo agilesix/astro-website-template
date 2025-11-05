@@ -1,0 +1,304 @@
+---
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+interface NavDropdown {
+  label: string;
+  items: NavItem[];
+}
+
+interface MobileNavigationProps {
+  items: (NavItem | NavDropdown)[];
+}
+
+const { items } = Astro.props;
+---
+
+<!-- Mobile menu button -->
+<div class="md:hidden">
+  <button
+    id="mobile-menu-button"
+    class="text-gray-700 hover:text-gray-900 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+    aria-label="Toggle navigation menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu-sheet"
+  >
+    <svg
+      class="h-6 w-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+    <span class="sr-only">Open menu</span>
+  </button>
+</div>
+
+<!-- Mobile Navigation Sheet -->
+<div
+  id="mobile-menu-sheet"
+  class="fixed inset-0 z-50 md:hidden pointer-events-none"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Mobile navigation"
+  aria-hidden="true"
+>
+  <!-- Backdrop -->
+  <div
+    id="mobile-menu-backdrop"
+    class="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 opacity-0 pointer-events-none"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- Sheet Panel -->
+  <div
+    id="mobile-menu-panel"
+    class="fixed right-0 top-0 h-full w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 ease-in-out translate-x-full overflow-y-auto pointer-events-auto"
+  >
+    <!-- Sheet Header -->
+    <div class="flex items-center justify-between p-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Menu</h2>
+      <button
+        id="mobile-menu-close"
+        class="text-gray-700 hover:text-gray-900 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+        aria-label="Close navigation menu"
+      >
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+        <span class="sr-only">Close menu</span>
+      </button>
+    </div>
+
+    <!-- Sheet Content -->
+    <nav class="p-4" role="menu" aria-label="Mobile navigation">
+      {
+        items.map((item: NavItem | NavDropdown, index: number) => {
+          if ("items" in item) {
+            const mobileDropdownId = `mobile-dropdown-${index}`;
+            const mobileMenuId = `mobile-menu-${index}`;
+            return (
+              <div class="mt-2" role="none">
+                <button
+                  id={mobileDropdownId}
+                  class="mobile-dropdown-toggle text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium w-full text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset rounded"
+                  aria-expanded="false"
+                  aria-controls={mobileMenuId}
+                  role="menuitem"
+                  aria-haspopup="true"
+                >
+                  {item.label}
+                  <svg
+                    class="h-4 w-4 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id={mobileMenuId}
+                  class="mobile-dropdown-content hidden pl-4 mt-1"
+                  role="menu"
+                  aria-labelledby={mobileDropdownId}
+                >
+                  {item.items.map((subItem: NavItem) => (
+                    <a
+                      href={subItem.href}
+                      class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset rounded"
+                      role="menuitem"
+                    >
+                      {subItem.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            );
+          } else {
+            return (
+              <a
+                href={item.href}
+                class="block px-3 py-2 text-sm text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset rounded"
+                role="menuitem"
+              >
+                {item.label}
+              </a>
+            );
+          }
+        })
+      }
+    </nav>
+  </div>
+</div>
+
+<script>
+  // Mobile menu sheet toggle
+  document.addEventListener("DOMContentLoaded", () => {
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenuSheet = document.getElementById("mobile-menu-sheet");
+    const mobileMenuBackdrop = document.getElementById("mobile-menu-backdrop");
+    const mobileMenuPanel = document.getElementById("mobile-menu-panel");
+    const mobileMenuClose = document.getElementById("mobile-menu-close");
+
+    if (
+      !mobileMenuButton ||
+      !mobileMenuSheet ||
+      !mobileMenuBackdrop ||
+      !mobileMenuPanel
+    ) {
+      console.error("Mobile menu elements not found");
+      return;
+    }
+
+    const openSheet = () => {
+      mobileMenuSheet.setAttribute("aria-hidden", "false");
+      mobileMenuSheet.classList.remove("pointer-events-none");
+      mobileMenuButton.setAttribute("aria-expanded", "true");
+      mobileMenuButton.setAttribute("aria-label", "Close navigation menu");
+      mobileMenuBackdrop.classList.remove("opacity-0", "pointer-events-none");
+      mobileMenuBackdrop.classList.add("opacity-100", "pointer-events-auto");
+      mobileMenuPanel.classList.remove("translate-x-full");
+      mobileMenuPanel.classList.add("translate-x-0");
+      document.body.style.overflow = "hidden";
+      // Focus the close button
+      setTimeout(() => {
+        mobileMenuClose?.focus();
+      }, 100);
+    };
+
+    const closeSheet = () => {
+      mobileMenuSheet.setAttribute("aria-hidden", "true");
+      mobileMenuSheet.classList.add("pointer-events-none");
+      mobileMenuButton.setAttribute("aria-expanded", "false");
+      mobileMenuButton.setAttribute("aria-label", "Toggle navigation menu");
+      mobileMenuBackdrop.classList.remove("opacity-100", "pointer-events-auto");
+      mobileMenuBackdrop.classList.add("opacity-0", "pointer-events-none");
+      mobileMenuPanel.classList.remove("translate-x-0");
+      mobileMenuPanel.classList.add("translate-x-full");
+      document.body.style.overflow = "";
+      // Return focus to menu button
+      mobileMenuButton?.focus();
+    };
+
+    // Open sheet
+    if (mobileMenuButton && mobileMenuSheet) {
+      mobileMenuButton.addEventListener("click", openSheet);
+
+      // Close sheet on Escape key
+      mobileMenuButton.addEventListener("keydown", (e) => {
+        if (
+          e.key === "Escape" &&
+          mobileMenuSheet.getAttribute("aria-hidden") === "false"
+        ) {
+          closeSheet();
+        }
+      });
+    }
+
+    // Close button
+    if (mobileMenuClose) {
+      mobileMenuClose.addEventListener("click", closeSheet);
+      mobileMenuClose.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeSheet();
+        }
+      });
+    }
+
+    // Close on backdrop click
+    if (mobileMenuBackdrop) {
+      mobileMenuBackdrop.addEventListener("click", closeSheet);
+    }
+
+    // Close sheet when clicking outside
+    mobileMenuSheet.addEventListener("click", (e) => {
+      if (e.target === mobileMenuSheet || e.target === mobileMenuBackdrop) {
+        closeSheet();
+      }
+    });
+
+    // Mobile dropdown toggles
+    document.querySelectorAll(".mobile-dropdown-toggle").forEach((button) => {
+      button.addEventListener("click", () => {
+        const content = button.nextElementSibling;
+        const icon = button.querySelector("svg");
+        const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+        if (content) {
+          content.classList.toggle("hidden");
+          button.setAttribute("aria-expanded", String(!isExpanded));
+          if (icon) {
+            icon.classList.toggle("rotate-180");
+          }
+        }
+      });
+
+      // Keyboard support for mobile dropdowns
+      button.addEventListener("keydown", (e) => {
+        const content = button.nextElementSibling;
+        const isExpanded = button.getAttribute("aria-expanded") === "true";
+        const keyEvent = e as KeyboardEvent;
+
+        switch (keyEvent.key) {
+          case "Enter":
+          case " ":
+            e.preventDefault();
+            content?.classList.toggle("hidden");
+            button.setAttribute("aria-expanded", String(!isExpanded));
+            const icon = button.querySelector("svg");
+            if (icon) {
+              icon.classList.toggle("rotate-180");
+            }
+            break;
+          case "Escape":
+            if (isExpanded && content) {
+              e.preventDefault();
+              content.classList.add("hidden");
+              button.setAttribute("aria-expanded", "false");
+              const icon = button.querySelector("svg");
+              if (icon) {
+                icon.classList.remove("rotate-180");
+              }
+            } else {
+              // If dropdown is closed, close the sheet
+              closeSheet();
+            }
+            break;
+        }
+      });
+    });
+
+    // Close sheet when navigating to a link
+    document.querySelectorAll("#mobile-menu-sheet a").forEach((link) => {
+      link.addEventListener("click", () => {
+        closeSheet();
+      });
+    });
+  });
+</script>

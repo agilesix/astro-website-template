@@ -1,0 +1,72 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  navItems,
+  footerColumns,
+  socialLinks,
+  siteConfig,
+} from "../config/site.ts";
+---
+
+<Layout
+  title="Terms of Service"
+  description="Terms and conditions for using our services"
+  logo={siteConfig.logo}
+  logoHref={siteConfig.logoHref}
+  navItems={navItems}
+  footerColumns={footerColumns}
+  socialLinks={socialLinks}
+  companyName={siteConfig.companyName}
+>
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        Terms of Service
+      </h1>
+      <p class="text-sm text-gray-500 mb-8">Last updated: [Date]</p>
+
+      <div class="prose prose-lg max-w-none">
+        <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+          Acceptance of Terms
+        </h2>
+        <p class="text-lg text-gray-600 mb-6">
+          By accessing and using this website, you accept and agree to be bound
+          by the terms and provision of this agreement.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+          Use License
+        </h2>
+        <p class="text-lg text-gray-600 mb-6">
+          Permission is granted to temporarily access the materials on our
+          website for personal, non-commercial transitory viewing only.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+          Limitations
+        </h2>
+        <p class="text-lg text-gray-600 mb-6">
+          In no event shall we or our suppliers be liable for any damages
+          (including, without limitation, damages for loss of data or profit, or
+          due to business interruption) arising out of the use or inability to
+          use the materials on our website.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+          Contact Us
+        </h2>
+        <p class="text-lg text-gray-600 mb-6">
+          If you have questions about these Terms of Service, please contact us
+          at{" "}
+          <a
+            href="mailto:legal@company.com"
+            class="text-blue-600 hover:text-blue-800"
+          >
+            legal@company.com
+          </a>
+          .
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

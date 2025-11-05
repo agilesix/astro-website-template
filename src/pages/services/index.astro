@@ -1,24 +1,13 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Banner from "../components/Banner.astro";
-import Services from "../components/Services.astro";
+import Layout from "../../layouts/Layout.astro";
+import Services from "../../components/Services.astro";
 import {
   navItems,
   footerColumns,
   socialLinks,
   siteConfig,
-} from "../config/site.ts";
+} from "../../config/site.ts";
 
-// Banner configuration
-const banner = {
-  tagline: "Building Better Government Through Technology",
-  description:
-    "We help public sector organizations deliver user-centered digital services that make a real difference in people's lives.",
-  ctaText: "Get Started",
-  ctaHref: "/contact",
-};
-
-// Services configuration
 const services = {
   title: "Our Services",
   subtitle:
@@ -59,8 +48,8 @@ const services = {
 ---
 
 <Layout
-  title="Home"
-  description="Civic tech solutions for modern government"
+  title="Services"
+  description="Comprehensive civic tech solutions for modern government"
   logo={siteConfig.logo}
   logoHref={siteConfig.logoHref}
   navItems={navItems}
@@ -68,12 +57,18 @@ const services = {
   socialLinks={socialLinks}
   companyName={siteConfig.companyName}
 >
-  <Banner
-    tagline={banner.tagline}
-    description={banner.description}
-    ctaText={banner.ctaText}
-    ctaHref={banner.ctaHref}
-  />
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        Our Services
+      </h1>
+      <p class="text-xl text-gray-600">
+        We offer a comprehensive range of services to help government agencies
+        modernize their digital infrastructure and improve citizen experience.
+      </p>
+    </div>
+  </section>
+
   <Services
     title={services.title}
     subtitle={services.subtitle}

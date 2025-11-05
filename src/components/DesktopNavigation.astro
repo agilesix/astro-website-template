@@ -1,0 +1,235 @@
+---
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+interface NavDropdown {
+  label: string;
+  items: NavItem[];
+}
+
+interface DesktopNavigationProps {
+  items: (NavItem | NavDropdown)[];
+}
+
+const { items } = Astro.props;
+---
+
+<div
+  class="hidden md:flex md:space-x-8"
+  role="menubar"
+  aria-label="Main navigation"
+>
+  {
+    items.map((item: NavItem | NavDropdown, index: number) => {
+      if ("items" in item) {
+        // Dropdown menu
+        const dropdownId = `dropdown-${index}`;
+        const menuId = `menu-${index}`;
+        return (
+          <div class="relative group" role="none">
+            <button
+              id={dropdownId}
+              class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls={menuId}
+              role="menuitem"
+              data-dropdown-button
+            >
+              {item.label}
+              <svg
+                class="ml-1 h-4 w-4 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            <div
+              id={menuId}
+              class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 z-10"
+              role="menu"
+              aria-labelledby={dropdownId}
+              data-dropdown-menu
+            >
+              <div class="py-1">
+                {item.items.map((subItem: NavItem, subIndex: number) => (
+                  <a
+                    href={subItem.href}
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    {subItem.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      } else {
+        // Regular link
+        return (
+          <a
+            href={item.href}
+            class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+            role="menuitem"
+          >
+            {item.label}
+          </a>
+        );
+      }
+    })
+  }
+</div>
+
+<script>
+  // Keyboard navigation for desktop dropdowns
+  document.addEventListener("DOMContentLoaded", () => {
+    const dropdownButtons = document.querySelectorAll<HTMLButtonElement>(
+      "[data-dropdown-button]"
+    );
+
+    dropdownButtons.forEach((button) => {
+      const menu = button.nextElementSibling as HTMLElement;
+      const menuId = button.getAttribute("aria-controls");
+      if (!menu || !menuId) return;
+
+      const menuItems =
+        menu.querySelectorAll<HTMLAnchorElement>('a[role="menuitem"]');
+
+      // Toggle dropdown on button click
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        const isExpanded = button.getAttribute("aria-expanded") === "true";
+        toggleDropdown(button, menu, !isExpanded);
+      });
+
+      // Keyboard navigation
+      button.addEventListener("keydown", (e) => {
+        const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+        switch (e.key) {
+          case "Enter":
+          case " ":
+            e.preventDefault();
+            toggleDropdown(button, menu, !isExpanded);
+            if (!isExpanded && menuItems.length > 0) {
+              (menuItems[0] as HTMLElement).focus();
+            }
+            break;
+          case "ArrowDown":
+            e.preventDefault();
+            if (!isExpanded) {
+              toggleDropdown(button, menu, true);
+            }
+            if (menuItems.length > 0) {
+              (menuItems[0] as HTMLElement).focus();
+            }
+            break;
+          case "Escape":
+            e.preventDefault();
+            toggleDropdown(button, menu, false);
+            break;
+        }
+      });
+
+      // Handle keyboard navigation within dropdown menu
+      menuItems.forEach((item, index) => {
+        item.addEventListener("keydown", (e) => {
+          switch (e.key) {
+            case "ArrowDown":
+              e.preventDefault();
+              const nextIndex = index < menuItems.length - 1 ? index + 1 : 0;
+              (menuItems[nextIndex] as HTMLElement).focus();
+              break;
+            case "ArrowUp":
+              e.preventDefault();
+              const prevIndex = index > 0 ? index - 1 : menuItems.length - 1;
+              if (prevIndex === menuItems.length - 1) {
+                button.focus();
+                toggleDropdown(button, menu, false);
+              } else {
+                (menuItems[prevIndex] as HTMLElement).focus();
+              }
+              break;
+            case "Escape":
+              e.preventDefault();
+              toggleDropdown(button, menu, false);
+              button.focus();
+              break;
+            case "Home":
+              e.preventDefault();
+              (menuItems[0] as HTMLElement).focus();
+              break;
+            case "End":
+              e.preventDefault();
+              (menuItems[menuItems.length - 1] as HTMLElement).focus();
+              break;
+          }
+        });
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (
+          !button.contains(e.target as Node) &&
+          !menu.contains(e.target as Node)
+        ) {
+          toggleDropdown(button, menu, false);
+        }
+      });
+
+      // Close dropdown when focus leaves
+      menu.addEventListener("focusout", (e) => {
+        // Check if focus is moving outside the dropdown
+        const relatedTarget = e.relatedTarget as HTMLElement;
+        if (
+          relatedTarget &&
+          !menu.contains(relatedTarget) &&
+          relatedTarget !== button
+        ) {
+          toggleDropdown(button, menu, false);
+        }
+      });
+    });
+
+    function toggleDropdown(
+      button: HTMLButtonElement,
+      menu: HTMLElement,
+      isOpen: boolean
+    ) {
+      button.setAttribute("aria-expanded", String(isOpen));
+      menu.classList.toggle("opacity-0", !isOpen);
+      menu.classList.toggle("invisible", !isOpen);
+      menu.classList.toggle("opacity-100", isOpen);
+      menu.classList.toggle("visible", isOpen);
+
+      // Update tabindex for menu items
+      const menuItems =
+        menu.querySelectorAll<HTMLAnchorElement>('a[role="menuitem"]');
+      menuItems.forEach((item) => {
+        item.setAttribute("tabindex", isOpen ? "0" : "-1");
+      });
+    }
+  });
+</script>
+
+<style>
+  .group:hover .group-hover\:opacity-100 {
+    opacity: 1;
+  }
+
+  .group:hover .group-hover\:visible {
+    visibility: visible;
+  }
+</style>

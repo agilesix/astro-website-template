@@ -1,0 +1,49 @@
+---
+import DesktopNavigation from "./DesktopNavigation.astro";
+import MobileNavigation from "./MobileNavigation.astro";
+
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+interface NavDropdown {
+  label: string;
+  items: NavItem[];
+}
+
+interface NavigationProps {
+  logo?: string;
+  logoHref?: string;
+  items: (NavItem | NavDropdown)[];
+}
+
+const { logo, logoHref = "/", items } = Astro.props;
+---
+
+<nav
+  class="bg-white shadow-sm relative"
+  role="navigation"
+  aria-label="Main navigation"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="shrink-0">
+        <a
+          href={logoHref}
+          class="text-2xl font-bold text-gray-900 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+          aria-label={`${logo || "Company Name"} - Home`}
+        >
+          {logo || "Company Name"}
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <DesktopNavigation items={items} />
+
+      <!-- Mobile Navigation -->
+      <MobileNavigation items={items} />
+    </div>
+  </div>
+</nav>

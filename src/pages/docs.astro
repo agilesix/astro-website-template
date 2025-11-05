@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  navItems,
+  footerColumns,
+  socialLinks,
+  siteConfig,
+} from "../config/site.ts";
+---
+
+<Layout
+  title="Documentation"
+  description="Technical documentation and resources for our services"
+  logo={siteConfig.logo}
+  logoHref={siteConfig.logoHref}
+  navItems={navItems}
+  footerColumns={footerColumns}
+  socialLinks={socialLinks}
+  companyName={siteConfig.companyName}
+>
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        Documentation
+      </h1>
+      <p class="text-xl text-gray-600 mb-8">
+        Technical documentation, guides, and resources for developers and
+        partners.
+      </p>
+      <div class="bg-gray-50 p-8 rounded-lg">
+        <p class="text-lg text-gray-600">
+          Documentation is coming soon. Check back later for technical guides,
+          API documentation, and implementation resources.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

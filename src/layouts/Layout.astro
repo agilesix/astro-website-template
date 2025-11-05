@@ -1,0 +1,65 @@
+---
+import "../styles/global.css";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import type {
+  NavItem,
+  NavDropdown,
+  FooterLink,
+  FooterColumn,
+} from "../config/site.ts";
+
+interface LayoutProps {
+  title: string;
+  description: string;
+  logo?: string;
+  logoHref?: string;
+  navItems?: (NavItem | NavDropdown)[];
+  footerColumns?: FooterColumn[];
+  socialLinks?: FooterLink[];
+  companyName?: string;
+}
+
+const {
+  title,
+  description,
+  logo = "Company Name",
+  logoHref = "/",
+  navItems = [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
+  ],
+  footerColumns = [
+    {
+      title: "Company",
+      links: [
+        { label: "About Us", href: "/about" },
+        { label: "Contact", href: "/contact" },
+      ],
+    },
+  ],
+  socialLinks = [],
+  companyName = "Company Name",
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body>
+    <Navigation logo={logo} logoHref={logoHref} items={navItems} />
+    <slot />
+    <Footer
+      companyName={companyName}
+      columns={footerColumns}
+      socialLinks={socialLinks}
+    />
+  </body>
+</html>

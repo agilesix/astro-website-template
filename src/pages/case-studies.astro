@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  navItems,
+  footerColumns,
+  socialLinks,
+  siteConfig,
+} from "../config/site.ts";
+---
+
+<Layout
+  title="Case Studies"
+  description="Explore our successful civic tech projects and their impact"
+  logo={siteConfig.logo}
+  logoHref={siteConfig.logoHref}
+  navItems={navItems}
+  footerColumns={footerColumns}
+  socialLinks={socialLinks}
+  companyName={siteConfig.companyName}
+>
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        Case Studies
+      </h1>
+      <p class="text-xl text-gray-600 mb-8">
+        Learn about our successful projects and how we've helped government
+        agencies improve their services.
+      </p>
+      <div class="bg-gray-50 p-8 rounded-lg">
+        <p class="text-lg text-gray-600">
+          Case studies coming soon. Check back later to read about our
+          successful civic tech implementations and their impact.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,73 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  navItems,
+  footerColumns,
+  socialLinks,
+  siteConfig,
+} from "../config/site.ts";
+---
+
+<Layout
+  title="Privacy Policy"
+  description="Our privacy policy and how we handle your data"
+  logo={siteConfig.logo}
+  logoHref={siteConfig.logoHref}
+  navItems={navItems}
+  footerColumns={footerColumns}
+  socialLinks={socialLinks}
+  companyName={siteConfig.companyName}
+>
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        Privacy Policy
+      </h1>
+      <p class="text-sm text-gray-500 mb-8">Last updated: [Date]</p>
+
+      <div class="prose prose-lg max-w-none">
+        <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+          Introduction
+        </h2>
+        <p class="text-lg text-gray-600 mb-6">
+          We are committed to protecting your privacy. This Privacy Policy
+          explains how we collect, use, and safeguard your personal information
+          when you visit our website or use our services.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+          Information We Collect
+        </h2>
+        <p class="text-lg text-gray-600 mb-6">
+          We may collect information that you provide directly to us, such as
+          when you fill out a contact form, subscribe to our newsletter, or
+          communicate with us.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+          How We Use Your Information
+        </h2>
+        <p class="text-lg text-gray-600 mb-6">
+          We use the information we collect to provide, maintain, and improve
+          our services, respond to your inquiries, and communicate with you.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+          Contact Us
+        </h2>
+        <p class="text-lg text-gray-600 mb-6">
+          If you have questions about this Privacy Policy, please contact us at{
+            " "
+          }
+          <a
+            href="mailto:privacy@company.com"
+            class="text-blue-600 hover:text-blue-800"
+          >
+            privacy@company.com
+          </a>
+          .
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
