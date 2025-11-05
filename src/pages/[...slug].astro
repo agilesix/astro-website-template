@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import MDXLayout from "../components/MDXLayout.astro";
+import MDXLayout from "@/layouts/MDXLayout.astro";
 
 export async function getStaticPaths() {
   const pages = await getCollection("pages");

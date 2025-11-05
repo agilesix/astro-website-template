@@ -1,13 +1,13 @@
 ---
-import "../styles/global.css";
-import Navigation from "../components/Navigation.astro";
-import Footer from "../components/Footer.astro";
+import "@/styles/global.css";
+import Navigation from "@/components/layout/Navigation.astro";
+import Footer from "@/components/layout/Footer.astro";
 import type {
   NavItem,
   NavDropdown,
   FooterLink,
   FooterColumn,
-} from "../config/site.ts";
+} from "@/config/site.ts";
 
 interface LayoutProps {
   title: string;
