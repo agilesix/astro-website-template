@@ -55,7 +55,6 @@ export const footerColumns: FooterColumn[] = [
       },
       { label: "Data Analytics", href: "/services/data-analytics" },
       { label: "User Research", href: "/services/user-research" },
-      { label: "All Services", href: "/services" },
     ],
   },
   {

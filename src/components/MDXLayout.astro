@@ -6,11 +6,19 @@ import {
   socialLinks,
   siteConfig,
 } from "../config/site.ts";
+
+interface Props {
+  title: string;
+  description: string;
+  lastUpdated?: string;
+}
+
+const { title, description, lastUpdated } = Astro.props;
 ---
 
 <Layout
-  title="Case Studies"
-  description="Explore our successful civic tech projects and their impact"
+  title={title}
+  description={description}
   logo={siteConfig.logo}
   logoHref={siteConfig.logoHref}
   navItems={navItems}
@@ -21,17 +29,15 @@ import {
   <section class="py-20 px-4">
     <div class="max-w-4xl mx-auto">
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-        Case Studies
+        {title}
       </h1>
-      <p class="text-xl text-gray-600 mb-8">
-        Learn about our successful projects and how we've helped government
-        agencies improve their services.
-      </p>
-      <div class="bg-gray-50 p-8 rounded-lg">
-        <p class="text-lg text-gray-600">
-          Case studies coming soon. Check back later to read about our
-          successful civic tech implementations and their impact.
-        </p>
+      {
+        lastUpdated && (
+          <p class="text-sm text-gray-500 mb-8">Last updated: {lastUpdated}</p>
+        )
+      }
+      <div class="prose prose-lg max-w-none">
+        <slot />
       </div>
     </div>
   </section>
