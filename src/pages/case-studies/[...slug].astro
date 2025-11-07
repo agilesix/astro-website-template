@@ -1,0 +1,69 @@
+---
+import { getCollection } from "astro:content";
+import MDXLayout from "@/layouts/MDXLayout.astro";
+
+export async function getStaticPaths() {
+  const caseStudies = await getCollection("case-studies" as any);
+  return caseStudies.map((caseStudy: any) => {
+    // Use the slug from frontmatter for stable URLs
+    const slug = caseStudy.data.slug;
+    return {
+      params: { slug },
+      props: { caseStudy },
+    };
+  });
+}
+
+interface Props {
+  params: { slug: string };
+  caseStudy: any;
+}
+
+const { caseStudy } = Astro.props as Props;
+const { Content } = await caseStudy.render();
+---
+
+<MDXLayout
+  title={caseStudy.data.title}
+  description={caseStudy.data.description}
+  lastUpdated={caseStudy.data.publishDate}
+>
+  <div
+    class="article-meta"
+    style="margin-bottom: var(--spacing-xl); padding-bottom: var(--spacing-lg); border-bottom: 1px solid var(--color-border);"
+  >
+    <p class="text-body-small" style="margin-bottom: var(--spacing-xs);">
+      Published: {caseStudy.data.publishDate}
+    </p>
+    {
+      caseStudy.data.client && (
+        <p class="text-body-small" style="margin-bottom: var(--spacing-xs);">
+          Client: {caseStudy.data.client}
+        </p>
+      )
+    }
+    {
+      caseStudy.data.industry && (
+        <p class="text-body-small" style="margin-bottom: var(--spacing-xs);">
+          Industry: {caseStudy.data.industry}
+        </p>
+      )
+    }
+    {
+      caseStudy.data.tags && caseStudy.data.tags.length > 0 && (
+        <div style="margin-top: var(--spacing-md);">
+          <span class="text-body-small">Tags: </span>
+          {caseStudy.data.tags.map((tag: string) => (
+            <span
+              class="text-body-small"
+              style="margin-right: var(--spacing-xs);"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      )
+    }
+  </div>
+  <Content />
+</MDXLayout>
