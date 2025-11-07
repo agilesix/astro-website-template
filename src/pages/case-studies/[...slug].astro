@@ -5,8 +5,8 @@ import MDXLayout from "@/layouts/MDXLayout.astro";
 export async function getStaticPaths() {
   const caseStudies = await getCollection("case-studies" as any);
   return caseStudies.map((caseStudy: any) => {
-    // Use the slug from frontmatter for stable URLs
-    const slug = caseStudy.data.slug;
+    // Use the id (which contains the slug from frontmatter) for stable URLs
+    const slug = caseStudy.slug;
     return {
       params: { slug },
       props: { caseStudy },

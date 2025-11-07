@@ -1,0 +1,188 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import {
+  navItems,
+  footerColumns,
+  socialLinks,
+  siteConfig,
+} from "@/config/site.ts";
+
+const allCaseStudies = await getCollection("case-studies" as any);
+// Sort: featured first, then by publish date (newest first)
+const sortedCaseStudies = allCaseStudies.sort((a: any, b: any) => {
+  // Featured case studies first
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  // Then by date (newest first)
+  return (
+    new Date(b.data.publishDate).getTime() -
+    new Date(a.data.publishDate).getTime()
+  );
+});
+
+const featuredCaseStudies = sortedCaseStudies.filter(
+  (cs: any) => cs.data.featured
+);
+const regularCaseStudies = sortedCaseStudies.filter(
+  (cs: any) => !cs.data.featured
+);
+---
+
+<Layout
+  title="Case Studies"
+  description="Explore our successful civic tech projects and their impact"
+  logo={siteConfig.logo}
+  logoHref={siteConfig.logoHref}
+  navItems={navItems}
+  footerColumns={footerColumns}
+  socialLinks={socialLinks}
+  companyName={siteConfig.companyName}
+>
+  <section class="section-padding">
+    <div class="container-content">
+      <h1 class="text-heading-1" style="margin-bottom: var(--spacing-md);">
+        Case Studies
+      </h1>
+      <p class="text-body-large" style="margin-bottom: var(--spacing-2xl);">
+        Learn about our successful projects and how we've helped government
+        agencies improve their services.
+      </p>
+
+      {
+        featuredCaseStudies.length > 0 && (
+          <div style="margin-bottom: var(--spacing-3xl);">
+            <h2
+              class="text-heading-2"
+              style="margin-bottom: var(--spacing-lg);"
+            >
+              Featured Case Studies
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-xl);">
+              {featuredCaseStudies.map((caseStudy: any) => (
+                <article
+                  class="card"
+                  style="display: flex; flex-direction: column;"
+                >
+                  <h3
+                    class="text-heading-3"
+                    style="margin-bottom: var(--spacing-sm);"
+                  >
+                    <a
+                      href={`/case-studies/${caseStudy.slug}`}
+                      style="text-decoration: none; color: inherit;"
+                    >
+                      {caseStudy.data.title}
+                    </a>
+                  </h3>
+                  <p
+                    class="text-body-small"
+                    style="margin-bottom: var(--spacing-sm); color: var(--color-text-secondary);"
+                  >
+                    {caseStudy.data.publishDate}
+                    {caseStudy.data.client && ` • ${caseStudy.data.client}`}
+                  </p>
+                  <p
+                    class="text-body"
+                    style="margin-bottom: var(--spacing-md); flex-grow: 1;"
+                  >
+                    {caseStudy.data.description}
+                  </p>
+                  {caseStudy.data.industry && (
+                    <p
+                      class="text-body-small"
+                      style="margin-bottom: var(--spacing-sm); color: var(--color-text-secondary);"
+                    >
+                      Industry: {caseStudy.data.industry}
+                    </p>
+                  )}
+                  <a
+                    href={`/case-studies/${caseStudy.slug}`}
+                    class="button-primary inline-block"
+                    style="align-self: flex-start;"
+                  >
+                    Read Case Study
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        regularCaseStudies.length > 0 && (
+          <div>
+            {featuredCaseStudies.length > 0 && (
+              <h2
+                class="text-heading-2"
+                style="margin-bottom: var(--spacing-lg);"
+              >
+                All Case Studies
+              </h2>
+            )}
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-xl);">
+              {regularCaseStudies.map((caseStudy: any) => (
+                <article
+                  class="card"
+                  style="display: flex; flex-direction: column;"
+                >
+                  <h3
+                    class="text-heading-3"
+                    style="margin-bottom: var(--spacing-sm);"
+                  >
+                    <a
+                      href={`/case-studies/${caseStudy.slug}`}
+                      style="text-decoration: none; color: inherit;"
+                    >
+                      {caseStudy.data.title}
+                    </a>
+                  </h3>
+                  <p
+                    class="text-body-small"
+                    style="margin-bottom: var(--spacing-sm); color: var(--color-text-secondary);"
+                  >
+                    {caseStudy.data.publishDate}
+                    {caseStudy.data.client && ` • ${caseStudy.data.client}`}
+                  </p>
+                  <p
+                    class="text-body"
+                    style="margin-bottom: var(--spacing-md); flex-grow: 1;"
+                  >
+                    {caseStudy.data.description}
+                  </p>
+                  {caseStudy.data.industry && (
+                    <p
+                      class="text-body-small"
+                      style="margin-bottom: var(--spacing-sm); color: var(--color-text-secondary);"
+                    >
+                      Industry: {caseStudy.data.industry}
+                    </p>
+                  )}
+                  <a
+                    href={`/case-studies/${caseStudy.slug}`}
+                    class="button-primary inline-block"
+                    style="align-self: flex-start;"
+                  >
+                    Read Case Study
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        sortedCaseStudies.length === 0 && (
+          <div class="card">
+            <p class="text-body-large">
+              Case studies coming soon. Check back later to read about our
+              successful civic tech implementations and their impact.
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>

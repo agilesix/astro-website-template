@@ -15,7 +15,6 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     publishDate: z.string(),
-    slug: z.string(), // Permanent URL slug
     author: z.string().optional(),
     tags: z.array(z.string()).optional(),
   }),
@@ -27,7 +26,6 @@ const news = defineCollection({
     title: z.string(),
     description: z.string(),
     publishDate: z.string(),
-    slug: z.string(), // Permanent URL slug
     author: z.string().optional(),
   }),
 });
@@ -38,7 +36,6 @@ const caseStudies = defineCollection({
     title: z.string(),
     description: z.string(),
     publishDate: z.string(),
-    slug: z.string(), // Permanent URL slug
     client: z.string().optional(),
     industry: z.string().optional(),
     tags: z.array(z.string()).optional(),
