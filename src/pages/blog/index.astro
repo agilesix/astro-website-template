@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
+import PostCollection from "@/components/ui/PostCollection.astro";
 import {
   navItems,
   footerColumns,
@@ -45,124 +46,15 @@ const regularPosts = sortedPosts.filter((post: any) => !post.data.featured);
         of civic technology.
       </p>
 
-      {
-        featuredPosts.length > 0 && (
-          <div style="margin-bottom: var(--spacing-3xl);">
-            <h2
-              class="text-heading-2"
-              style="margin-bottom: var(--spacing-lg);"
-            >
-              Featured Posts
-            </h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-xl);">
-              {featuredPosts.map((post: any) => (
-                <article
-                  class="card"
-                  style="display: flex; flex-direction: column;"
-                >
-                  <h3
-                    class="text-heading-3"
-                    style="margin-bottom: var(--spacing-sm);"
-                  >
-                    <a
-                      href={`/blog/${post.slug}`}
-                      style="text-decoration: none; color: inherit;"
-                    >
-                      {post.data.title}
-                    </a>
-                  </h3>
-                  <p
-                    class="text-body-small"
-                    style="margin-bottom: var(--spacing-sm); color: var(--color-text-secondary);"
-                  >
-                    {post.data.publishDate}
-                    {post.data.author && ` • ${post.data.author}`}
-                  </p>
-                  <p
-                    class="text-body"
-                    style="margin-bottom: var(--spacing-md); flex-grow: 1;"
-                  >
-                    {post.data.description}
-                  </p>
-                  <a
-                    href={`/blog/${post.slug}`}
-                    class="button-primary inline-block"
-                    style="align-self: flex-start;"
-                  >
-                    Read More
-                  </a>
-                </article>
-              ))}
-            </div>
-          </div>
-        )
-      }
-
-      {
-        regularPosts.length > 0 && (
-          <div>
-            {featuredPosts.length > 0 && (
-              <h2
-                class="text-heading-2"
-                style="margin-bottom: var(--spacing-lg);"
-              >
-                All Posts
-              </h2>
-            )}
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-xl);">
-              {regularPosts.map((post: any) => (
-                <article
-                  class="card"
-                  style="display: flex; flex-direction: column;"
-                >
-                  <h3
-                    class="text-heading-3"
-                    style="margin-bottom: var(--spacing-sm);"
-                  >
-                    <a
-                      href={`/blog/${post.slug}`}
-                      style="text-decoration: none; color: inherit;"
-                    >
-                      {post.data.title}
-                    </a>
-                  </h3>
-                  <p
-                    class="text-body-small"
-                    style="margin-bottom: var(--spacing-sm); color: var(--color-text-secondary);"
-                  >
-                    {post.data.publishDate}
-                    {post.data.author && ` • ${post.data.author}`}
-                  </p>
-                  <p
-                    class="text-body"
-                    style="margin-bottom: var(--spacing-md); flex-grow: 1;"
-                  >
-                    {post.data.description}
-                  </p>
-                  <a
-                    href={`/blog/${post.slug}`}
-                    class="button-primary inline-block"
-                    style="align-self: flex-start;"
-                  >
-                    Read More
-                  </a>
-                </article>
-              ))}
-            </div>
-          </div>
-        )
-      }
-
-      {
-        sortedPosts.length === 0 && (
-          <div class="card">
-            <p class="text-body-large">
-              Blog posts coming soon. Check back later for articles about civic
-              tech, government digital transformation, and best practices.
-            </p>
-          </div>
-        )
-      }
+      <PostCollection
+        featured={featuredPosts}
+        regular={regularPosts}
+        basePath="/blog"
+        featuredTitle="Featured Posts"
+        regularTitle="All Posts"
+        buttonText="Read More"
+        emptyMessage="Blog posts coming soon. Check back later for articles about civic tech, government digital transformation, and best practices."
+      />
     </div>
   </section>
 </Layout>

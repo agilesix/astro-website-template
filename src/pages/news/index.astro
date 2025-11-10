@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
+import PostCollection from "@/components/ui/PostCollection.astro";
 import {
   navItems,
   footerColumns,
@@ -44,124 +45,15 @@ const regularNews = sortedNews.filter((news: any) => !news.data.featured);
         Stay updated with the latest news and announcements from our team.
       </p>
 
-      {
-        featuredNews.length > 0 && (
-          <div style="margin-bottom: var(--spacing-3xl);">
-            <h2
-              class="text-heading-2"
-              style="margin-bottom: var(--spacing-lg);"
-            >
-              Featured News
-            </h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-xl);">
-              {featuredNews.map((newsItem: any) => (
-                <article
-                  class="card"
-                  style="display: flex; flex-direction: column;"
-                >
-                  <h3
-                    class="text-heading-3"
-                    style="margin-bottom: var(--spacing-sm);"
-                  >
-                    <a
-                      href={`/news/${newsItem.slug}`}
-                      style="text-decoration: none; color: inherit;"
-                    >
-                      {newsItem.data.title}
-                    </a>
-                  </h3>
-                  <p
-                    class="text-body-small"
-                    style="margin-bottom: var(--spacing-sm); color: var(--color-text-secondary);"
-                  >
-                    {newsItem.data.publishDate}
-                    {newsItem.data.author && ` • ${newsItem.data.author}`}
-                  </p>
-                  <p
-                    class="text-body"
-                    style="margin-bottom: var(--spacing-md); flex-grow: 1;"
-                  >
-                    {newsItem.data.description}
-                  </p>
-                  <a
-                    href={`/news/${newsItem.slug}`}
-                    class="button-primary inline-block"
-                    style="align-self: flex-start;"
-                  >
-                    Read More
-                  </a>
-                </article>
-              ))}
-            </div>
-          </div>
-        )
-      }
-
-      {
-        regularNews.length > 0 && (
-          <div>
-            {featuredNews.length > 0 && (
-              <h2
-                class="text-heading-2"
-                style="margin-bottom: var(--spacing-lg);"
-              >
-                All News
-              </h2>
-            )}
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-xl);">
-              {regularNews.map((newsItem: any) => (
-                <article
-                  class="card"
-                  style="display: flex; flex-direction: column;"
-                >
-                  <h3
-                    class="text-heading-3"
-                    style="margin-bottom: var(--spacing-sm);"
-                  >
-                    <a
-                      href={`/news/${newsItem.slug}`}
-                      style="text-decoration: none; color: inherit;"
-                    >
-                      {newsItem.data.title}
-                    </a>
-                  </h3>
-                  <p
-                    class="text-body-small"
-                    style="margin-bottom: var(--spacing-sm); color: var(--color-text-secondary);"
-                  >
-                    {newsItem.data.publishDate}
-                    {newsItem.data.author && ` • ${newsItem.data.author}`}
-                  </p>
-                  <p
-                    class="text-body"
-                    style="margin-bottom: var(--spacing-md); flex-grow: 1;"
-                  >
-                    {newsItem.data.description}
-                  </p>
-                  <a
-                    href={`/news/${newsItem.slug}`}
-                    class="button-primary inline-block"
-                    style="align-self: flex-start;"
-                  >
-                    Read More
-                  </a>
-                </article>
-              ))}
-            </div>
-          </div>
-        )
-      }
-
-      {
-        sortedNews.length === 0 && (
-          <div class="card">
-            <p class="text-body-large">
-              News items coming soon. Check back later for updates and
-              announcements.
-            </p>
-          </div>
-        )
-      }
+      <PostCollection
+        featured={featuredNews}
+        regular={regularNews}
+        basePath="/news"
+        featuredTitle="Featured News"
+        regularTitle="All News"
+        buttonText="Read More"
+        emptyMessage="News items coming soon. Check back later for updates and announcements."
+      />
     </div>
   </section>
 </Layout>
