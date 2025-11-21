@@ -6,7 +6,7 @@ export async function getStaticPaths() {
   const pages = await getCollection("pages");
   return pages.map((page) => {
     // Remove .mdx extension from slug
-    const slug = page.id.replace(/\.mdx$/, "");
+    const slug = page.slug.replace(/\.mdx$/, "");
     return {
       params: { slug },
       props: { page },

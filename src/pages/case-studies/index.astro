@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import PostCollection from "@/components/ui/PostCollection.astro";
+import {
+  navItems,
+  footerColumns,
+  socialLinks,
+  siteConfig,
+} from "@/config/site.ts";
+
+const allCaseStudies = await getCollection("case-studies" as any);
+// Sort: featured first, then by publish date (newest first)
+const sortedCaseStudies = allCaseStudies.sort((a: any, b: any) => {
+  // Featured case studies first
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  // Then by date (newest first)
+  return (
+    new Date(b.data.publishDate).getTime() -
+    new Date(a.data.publishDate).getTime()
+  );
+});
+
+const featuredCaseStudies = sortedCaseStudies.filter(
+  (cs: any) => cs.data.featured
+);
+const regularCaseStudies = sortedCaseStudies.filter(
+  (cs: any) => !cs.data.featured
+);
+---
+
+<Layout
+  title="Case Studies"
+  description="Explore our successful civic tech projects and their impact"
+  logo={siteConfig.logo}
+  logoHref={siteConfig.logoHref}
+  navItems={navItems}
+  footerColumns={footerColumns}
+  socialLinks={socialLinks}
+  companyName={siteConfig.companyName}
+>
+  <section class="section-padding">
+    <div class="container-content">
+      <h1 class="text-heading-1" style="margin-bottom: var(--spacing-md);">
+        Case Studies
+      </h1>
+      <p class="text-body-large" style="margin-bottom: var(--spacing-2xl);">
+        Learn about our successful projects and how we've helped government
+        agencies improve their services.
+      </p>
+
+      <PostCollection
+        featured={featuredCaseStudies}
+        regular={regularCaseStudies}
+        basePath="/case-studies"
+        featuredTitle="Featured Case Studies"
+        regularTitle="All Case Studies"
+        buttonText="Read Case Study"
+        emptyMessage="Case studies coming soon. Check back later to read about our successful civic tech implementations and their impact."
+      />
+    </div>
+  </section>
+</Layout>

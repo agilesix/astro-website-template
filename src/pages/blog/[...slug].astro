@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import MDXLayout from "@/layouts/MDXLayout.astro";
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection("blog" as any);
+  return blogPosts.map((post: any) => {
+    // Use the id (which contains the slug from frontmatter) for stable URLs
+    const slug = post.slug;
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+}
+
+interface Props {
+  params: { slug: string };
+  post: any;
+}
+
+const { post } = Astro.props as Props;
+const { Content } = await post.render();
+---
+
+<MDXLayout
+  title={post.data.title}
+  description={post.data.description}
+  lastUpdated={post.data.publishDate}
+>
+  <div
+    class="article-meta"
+    style="margin-bottom: var(--spacing-xl); padding-bottom: var(--spacing-lg); border-bottom: 1px solid var(--color-border);"
+  >
+    <p class="text-body-small" style="margin-bottom: var(--spacing-xs);">
+      Published: {post.data.publishDate}
+    </p>
+    {
+      post.data.author && (
+        <p class="text-body-small" style="margin-bottom: var(--spacing-xs);">
+          Author: {post.data.author}
+        </p>
+      )
+    }
+    {
+      post.data.tags && post.data.tags.length > 0 && (
+        <div style="margin-top: var(--spacing-md);">
+          <span class="text-body-small">Tags: </span>
+          {post.data.tags.map((tag: string) => (
+            <span
+              class="text-body-small"
+              style="margin-right: var(--spacing-xs);"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      )
+    }
+  </div>
+  <Content />
+</MDXLayout>
